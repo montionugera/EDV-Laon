@@ -1,0 +1,282 @@
+Loan Date Quarter,Cate,LoanAmount
+2005-Q3,Not Available,78687
+2005-Q4,Not Available,1560387
+2006-Q1,Not Available,5658175
+2006-Q2,Not Available,9369516
+2006-Q3,Not Available,11544121
+2006-Q4,Not Available,19929121
+2007-Q1,Not Available,23472245
+2007-Q2,Not Available,18430232
+2007-Q3,Auto,32750
+2007-Q3,Business,745846
+2007-Q3,Debt Consolidation,1398440
+2007-Q3,Home Improvement,112951
+2007-Q3,Not Available,15942132
+2007-Q3,Other,116900
+2007-Q3,Personal Loan,565465
+2007-Q3,Student Use,41704
+2007-Q4,Auto,334958
+2007-Q4,Business,4839049
+2007-Q4,Debt Consolidation,9688594
+2007-Q4,Home Improvement,1048900
+2007-Q4,Other,678680
+2007-Q4,Personal Loan,3552905
+2007-Q4,Student Use,326480
+2008-Q1,Auto,513766
+2008-Q1,Business,5884942
+2008-Q1,Debt Consolidation,10615644
+2008-Q1,Home Improvement,1480397
+2008-Q1,Other,735979
+2008-Q1,Personal Loan,6517556
+2008-Q1,Student Use,581152
+2008-Q2,Auto,521532
+2008-Q2,Business,4553705
+2008-Q2,Debt Consolidation,8809299
+2008-Q2,Home Improvement,1526462
+2008-Q2,Other,3330209
+2008-Q2,Personal Loan,277300
+2008-Q2,Student Use,802564
+2008-Q3,Auto,76995
+2008-Q3,Business,708199
+2008-Q3,Debt Consolidation,1290054
+2008-Q3,Home Improvement,290380
+2008-Q3,Other,495299
+2008-Q3,Student Use,80850
+2009-Q1,Auto,1000
+2009-Q1,Business,1000
+2009-Q1,Debt Consolidation,10700
+2009-Q1,Other,10900
+2009-Q1,Student Use,4500
+2009-Q2,Auto,72675
+2009-Q2,Business,253710
+2009-Q2,Debt Consolidation,1138087
+2009-Q2,Home Improvement,258214
+2009-Q2,Other,352960
+2009-Q2,Student Use,107593
+2009-Q3,Auto,267275
+2009-Q3,Business,922930
+2009-Q3,Debt Consolidation,3600110
+2009-Q3,Home Improvement,595336
+2009-Q3,Other,1115265
+2009-Q3,Student Use,202141
+2009-Q4,Auto,249000
+2009-Q4,Business,581534
+2009-Q4,Debt Consolidation,3460504
+2009-Q4,Home Improvement,464078
+2009-Q4,Other,985394
+2009-Q4,Student Use,193180
+2010-Q1,Auto,255100
+2010-Q1,Business,577313
+2010-Q1,Debt Consolidation,3340736
+2010-Q1,Home Improvement,711488
+2010-Q1,Other,1242184
+2010-Q1,Student Use,254365
+2010-Q2,Auto,225549
+2010-Q2,Business,821090
+2010-Q2,Debt Consolidation,3120486
+2010-Q2,Home Improvement,730849
+2010-Q2,Other,1283998
+2010-Q2,Student Use,62485
+2010-Q3,Auto,311450
+2010-Q3,Business,1068931
+2010-Q3,Debt Consolidation,4390616
+2010-Q3,Home Improvement,952807
+2010-Q3,Other,1657349
+2010-Q4,Auto,465607
+2010-Q4,Business,1336522
+2010-Q4,Debt Consolidation,5822094
+2010-Q4,Home Improvement,1299752
+2010-Q4,Not Available,7700
+2010-Q4,Other,2540198
+2011-Q1,Auto,835414
+2011-Q1,Business,1823391
+2011-Q1,Debt Consolidation,8155590
+2011-Q1,Home Improvement,1975236
+2011-Q1,Not Available,9455
+2011-Q1,Other,3421260
+2011-Q2,Auto,794162
+2011-Q2,Business,2502069
+2011-Q2,Debt Consolidation,10752486
+2011-Q2,Home Improvement,2269104
+2011-Q2,Not Available,12350
+2011-Q2,Other,3905238
+2011-Q3,Auto,1029973
+2011-Q3,Baby&Adoption,5500
+2011-Q3,Business,3470119
+2011-Q3,Debt Consolidation,14106135
+2011-Q3,Engagement Ring,18000
+2011-Q3,Green Loans,4000
+2011-Q3,Home Improvement,3100158
+2011-Q3,Household Expenses,48000
+2011-Q3,Large Purchases,35000
+2011-Q3,Medical/Dental,57000
+2011-Q3,Not Available,15000
+2011-Q3,Other,5260500
+2011-Q3,Taxes,38000
+2011-Q3,Vacation,8000
+2011-Q3,Wedding Loans,15000
+2011-Q4,Auto,839766
+2011-Q4,Baby&Adoption,83500
+2011-Q4,Boat,91300
+2011-Q4,Business,4052728
+2011-Q4,Cosmetic Procedure,94924
+2011-Q4,Debt Consolidation,16441089
+2011-Q4,Engagement Ring,140500
+2011-Q4,Green Loans,78000
+2011-Q4,Home Improvement,3467788
+2011-Q4,Household Expenses,1049650
+2011-Q4,Large Purchases,560726
+2011-Q4,Medical/Dental,885430
+2011-Q4,Motorcycle,307600
+2011-Q4,Other,2791752
+2011-Q4,RV,75000
+2011-Q4,Taxes,893707
+2011-Q4,Vacation,567520
+2011-Q4,Wedding Loans,643200
+2012-Q1,Auto,897089
+2012-Q1,Baby&Adoption,176000
+2012-Q1,Boat,114250
+2012-Q1,Business,4165194
+2012-Q1,Cosmetic Procedure,130027
+2012-Q1,Debt Consolidation,17937992
+2012-Q1,Engagement Ring,248214
+2012-Q1,Green Loans,39500
+2012-Q1,Home Improvement,5009355
+2012-Q1,Household Expenses,1348700
+2012-Q1,Large Purchases,786400
+2012-Q1,Medical/Dental,1107168
+2012-Q1,Motorcycle,402060
+2012-Q1,Other,3152641
+2012-Q1,RV,28500
+2012-Q1,Taxes,1006650
+2012-Q1,Vacation,550375
+2012-Q1,Wedding Loans,909441
+2012-Q2,Auto,1124750
+2012-Q2,Baby&Adoption,106500
+2012-Q2,Boat,113500
+2012-Q2,Business,4135726
+2012-Q2,Cosmetic Procedure,77200
+2012-Q2,Debt Consolidation,24803038
+2012-Q2,Engagement Ring,216287
+2012-Q2,Green Loans,64000
+2012-Q2,Home Improvement,5006053
+2012-Q2,Household Expenses,1766870
+2012-Q2,Large Purchases,662850
+2012-Q2,Medical/Dental,1350109
+2012-Q2,Motorcycle,196724
+2012-Q2,Not Available,8000
+2012-Q2,Other,3263177
+2012-Q2,RV,112500
+2012-Q2,Taxes,524199
+2012-Q2,Vacation,664350
+2012-Q2,Wedding Loans,878630
+2012-Q3,Auto,620508
+2012-Q3,Baby&Adoption,159628
+2012-Q3,Boat,27300
+2012-Q3,Business,2750939
+2012-Q3,Cosmetic Procedure,50400
+2012-Q3,Debt Consolidation,23603036
+2012-Q3,Engagement Ring,207450
+2012-Q3,Green Loans,29739
+2012-Q3,Home Improvement,3251835
+2012-Q3,Household Expenses,1374730
+2012-Q3,Large Purchases,449215
+2012-Q3,Medical/Dental,967823
+2012-Q3,Motorcycle,133600
+2012-Q3,Not Available,8000
+2012-Q3,Other,2153333
+2012-Q3,RV,17000
+2012-Q3,Taxes,449792
+2012-Q3,Vacation,367077
+2012-Q3,Wedding Loans,405512
+2012-Q4,Auto,433500
+2012-Q4,Baby&Adoption,273700
+2012-Q4,Boat,52400
+2012-Q4,Business,2371931
+2012-Q4,Cosmetic Procedure,45649
+2012-Q4,Debt Consolidation,22452828
+2012-Q4,Engagement Ring,188665
+2012-Q4,Green Loans,36300
+2012-Q4,Home Improvement,3038671
+2012-Q4,Household Expenses,529600
+2012-Q4,Large Purchases,449250
+2012-Q4,Medical/Dental,733699
+2012-Q4,Motorcycle,108200
+2012-Q4,Other,1736417
+2012-Q4,RV,29736
+2012-Q4,Taxes,651335
+2012-Q4,Vacation,273061
+2012-Q4,Wedding Loans,537567
+2013-Q1,Auto,598596
+2013-Q1,Baby&Adoption,253000
+2013-Q1,Boat,154250
+2013-Q1,Business,3029927
+2013-Q1,Cosmetic Procedure,60000
+2013-Q1,Debt Consolidation,55569752
+2013-Q1,Engagement Ring,81000
+2013-Q1,Green Loans,22000
+2013-Q1,Home Improvement,5496817
+2013-Q1,Household Expenses,895923
+2013-Q1,Large Purchases,771752
+2013-Q1,Medical/Dental,928903
+2013-Q1,Motorcycle,274050
+2013-Q1,Not Available,7000
+2013-Q1,Other,2728011
+2013-Q1,RV,36000
+2013-Q1,Taxes,876888
+2013-Q1,Vacation,461400
+2013-Q1,Wedding Loans,531869
+2013-Q2,Auto,668600
+2013-Q2,Baby&Adoption,178500
+2013-Q2,Boat,94000
+2013-Q2,Business,3931218
+2013-Q2,Cosmetic Procedure,59000
+2013-Q2,Debt Consolidation,75619680
+2013-Q2,Engagement Ring,205500
+2013-Q2,Green Loans,64899
+2013-Q2,Home Improvement,5507900
+2013-Q2,Household Expenses,1396487
+2013-Q2,Large Purchases,881903
+2013-Q2,Medical/Dental,1004800
+2013-Q2,Motorcycle,110400
+2013-Q2,Not Available,15500
+2013-Q2,Other,3489224
+2013-Q2,RV,55000
+2013-Q2,Taxes,638266
+2013-Q2,Vacation,416251
+2013-Q2,Wedding Loans,974003
+2013-Q3,Auto,974250
+2013-Q3,Baby&Adoption,435200
+2013-Q3,Boat,49500
+2013-Q3,Business,5443278
+2013-Q3,Debt Consolidation,132125922
+2013-Q3,Engagement Ring,152501
+2013-Q3,Green Loans,103000
+2013-Q3,Home Improvement,6920914
+2013-Q3,Household Expenses,1174772
+2013-Q3,Large Purchases,1468218
+2013-Q3,Medical/Dental,1520454
+2013-Q3,Motorcycle,72300
+2013-Q3,Other,7562382
+2013-Q3,RV,9000
+2013-Q3,Taxes,692920
+2013-Q3,Vacation,499366
+2013-Q3,Wedding Loans,935523
+2013-Q4,Auto,717400
+2013-Q4,Baby&Adoption,269000
+2013-Q4,Boat,45900
+2013-Q4,Business,4203900
+2013-Q4,Debt Consolidation,119483285
+2013-Q4,Engagement Ring,199100
+2013-Q4,Green Loans,57500
+2013-Q4,Home Improvement,5633021
+2013-Q4,Household Expenses,965100
+2013-Q4,Large Purchases,1618873
+2013-Q4,Medical/Dental,1374550
+2013-Q4,Motorcycle,85552
+2013-Q4,Not Available,29000
+2013-Q4,Other,8026525
+2013-Q4,RV,61000
+2013-Q4,Taxes,936920
+2013-Q4,Vacation,307310
+2013-Q4,Wedding Loans,981600

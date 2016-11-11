@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <script src="js/d3.v3.min.js"></script>
+    <script src="js/dimple.v2.0.0.min.js"></script>
+
+    <style>
+        circle.dimple-series-1 {
+            fill: red;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function resize() {
+            
+        }
+        function drawContainer(data){
+
+            var margin = 75,
+                    width = 1400 - margin,
+                    height = 600 - margin;
+
+            d3.select("body")
+                    .append("h2")
+                    .text("Loan data")
+
+            var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width + margin)
+                    .attr("height", height + margin)
+                    .append('g')
+                    .attr('class', 'chart');
+            return svg;
+        }
+        function drawChart() {
+
+        }
+        function draw(data) {
+            "use strict";
+            var svg = drawContainer(data);
+
+            var myChart = new dimple.chart(svg, data);
+            var x = myChart.addCategoryAxis("x", "Loan Date Quarter");
+            x.addOrderRule(['2005-Q3', '2005-Q4', '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4', '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4', '2008-Q1', '2008-Q2', '2008-Q3', '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4', '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4', '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4', '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4', '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4']);
+            myChart.addMeasureAxis("y", "LoanAmount");
+//            myChart.addSeries("Cate", dimple.plot.bar);
+//            myChart.addLegend(60, 10, 510, 20, "right");
+//          x.dateParseFormat = "%Y";
+//          x.tickFormat = "%Y";
+//          x.timeInterval = 4;
+            var s1 = myChart.addSeries(null, dimple.plot.bar); //
+            myChart.addSeries(null, dimple.plot.line);
+
+            var s2 = myChart.addSeries(null, dimple.plot.scatter);
+//            debugger;
+            myChart.draw();
+        }
+
+    </script>
 </head>
 <body>
-
+<script type="text/javascript">
+    d3.select(window).on('resize', resize); 
+    //sumloan_by_cate.csv
+    //sumloan_by_map.csv
+    d3.csv("data/sumloan_by_cate.csv", draw);
+</script>
 </body>
 </html>
