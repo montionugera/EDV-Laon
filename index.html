@@ -4,7 +4,74 @@
     <meta charset="utf-8">
     <script src="js/d3.v3.min.js"></script>
     <script src="js/dimple.v2.0.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        let STATE_DICT = {
+            'WA': {'short': 'WA', 'id': '53', 'full': 'Washington'},
+            'DE': {'short': 'DE', 'id': '10', 'full': 'Delaware'},
+            'DC': {'short': 'DC', 'id': '11', 'full': 'District of Columbia'},
+            'WI': {'short': 'WI', 'id': '55', 'full': 'Wisconsin'},
+            'WV': {'short': 'WV', 'id': '54', 'full': 'West Virginia'},
+            'HI': {'short': 'HI', 'id': '15', 'full': 'Hawaii'},
+            'FL': {'short': 'FL', 'id': '12', 'full': 'Florida'},
+            'WY': {'short': 'WY', 'id': '56', 'full': 'Wyoming'},
+            'PR': {'short': 'PR', 'id': '72', 'full': 'Puerto Rico'},
+            'NJ': {'short': 'NJ', 'id': '34', 'full': 'New Jersey'},
+            'NM': {'short': 'NM', 'id': '35', 'full': 'New Mexico'},
+            'TX': {'short': 'TX', 'id': '48', 'full': 'Texas'},
+            'LA': {'short': 'LA', 'id': '22', 'full': 'Louisiana'},
+            'NC': {'short': 'NC', 'id': '37', 'full': 'North Carolina'},
+            'ND': {'short': 'ND', 'id': '38', 'full': 'North Dakota'},
+            'NE': {'short': 'NE', 'id': '31', 'full': 'Nebraska'},
+            'TN': {'short': 'TN', 'id': '47', 'full': 'Tennessee'},
+            'NY': {'short': 'NY', 'id': '36', 'full': 'New York'},
+            'PA': {'short': 'PA', 'id': '42', 'full': 'Pennsylvania'},
+            'AK': {'short': 'AK', 'id': '02', 'full': 'Alaska'},
+            'NV': {'short': 'NV', 'id': '32', 'full': 'Nevada'},
+            'NH': {'short': 'NH', 'id': '33', 'full': 'New Hampshire'},
+            'VA': {'short': 'VA', 'id': '51', 'full': 'Virginia'},
+            'CO': {'short': 'CO', 'id': '08', 'full': 'Colorado'},
+            'CA': {'short': 'CA', 'id': '06', 'full': 'California'},
+            'AL': {'short': 'AL', 'id': '01', 'full': 'Alabama'},
+            'AR': {'short': 'AR', 'id': '05', 'full': 'Arkansas'},
+            'VT': {'short': 'VT', 'id': '50', 'full': 'Vermont'},
+            'IL': {'short': 'IL', 'id': '17', 'full': 'Illinois'},
+            'GA': {'short': 'GA', 'id': '13', 'full': 'Georgia'},
+            'IN': {'short': 'IN', 'id': '18', 'full': 'Indiana'},
+            'IA': {'short': 'IA', 'id': '19', 'full': 'Iowa'},
+            'MA': {'short': 'MA', 'id': '25', 'full': 'Massachusetts'},
+            'AZ': {'short': 'AZ', 'id': '04', 'full': 'Arizona'},
+            'ID': {'short': 'ID', 'id': '16', 'full': 'Idaho'},
+            'CT': {'short': 'CT', 'id': '09', 'full': 'Connecticut'},
+            'ME': {'short': 'ME', 'id': '23', 'full': 'Maine'},
+            'MD': {'short': 'MD', 'id': '24', 'full': 'Maryland'},
+            'OK': {'short': 'OK', 'id': '40', 'full': 'Oklahoma'},
+            'OH': {'short': 'OH', 'id': '39', 'full': 'Ohio'},
+            'UT': {'short': 'UT', 'id': '49', 'full': 'Utah'},
+            'MO': {'short': 'MO', 'id': '29', 'full': 'Missouri'},
+            'MN': {'short': 'MN', 'id': '27', 'full': 'Minnesota'},
+            'MI': {'short': 'MI', 'id': '26', 'full': 'Michigan'},
+            'RI': {'short': 'RI', 'id': '44', 'full': 'Rhode Island'},
+            'KS': {'short': 'KS', 'id': '20', 'full': 'Kansas'},
+            'MT': {'short': 'MT', 'id': '30', 'full': 'Montana'},
+            'MS': {'short': 'MS', 'id': '28', 'full': 'Mississippi'},
+            'SC': {'short': 'SC', 'id': '45', 'full': 'South Carolina'},
+            'KY': {'short': 'KY', 'id': '21', 'full': 'Kentucky'},
+            'OR': {'short': 'OR', 'id': '41', 'full': 'Oregon'},
+            'SD': {'short': 'SD', 'id': '46', 'full': 'South Dakota'}
+        };
+    </script>
     <style>
         circle.dimple-series-1 {
             fill: red;
@@ -14,61 +81,216 @@
             text-align: center;
         }
     </style>
-
     <script type="text/javascript">
-        function resize() {
-            
-        }
-        function drawContainer(data){
 
-            var margin = 75,
-                    width = 1400 - margin,
-                    height = 600 - margin;
-
-            d3.select("body")
-                    .append("h2")
-                    .text("Loan data")
-
-            var svg = d3.select("body")
-                    .append("svg")
-                    .attr("width", width + margin)
-                    .attr("height", height + margin)
-                    .append('g')
-                    .attr('class', 'chart');
+        var chartTrend, chartGeo;
+        var width = 900, height = 600;
+        function drawContainer(chart_id) {
+            var svg = dimple.newSvg(chart_id, "100%", "600px");
             return svg;
         }
-        function drawChart() {
+    </script>
+    <script type="text/javascript">
 
-        }
-        function draw(data) {
+        function draw_geo(geo_data) {
             "use strict";
-            var svg = drawContainer(data);
+            var svg = drawContainer('#chart-geo');
+            // draw map
+            //ref : http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
 
-            var myChart = new dimple.chart(svg, data);
-            var x = myChart.addCategoryAxis("x", "Loan Date Quarter");
-            x.addOrderRule(['2005-Q3', '2005-Q4', '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4', '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4', '2008-Q1', '2008-Q2', '2008-Q3', '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4', '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4', '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4', '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4', '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4']);
-            myChart.addMeasureAxis("y", "LoanAmount");
-//            myChart.addSeries("Cate", dimple.plot.bar);
-//            myChart.addLegend(60, 10, 510, 20, "right");
-//          x.dateParseFormat = "%Y";
-//          x.tickFormat = "%Y";
-//          x.timeInterval = 4;
-            var s1 = myChart.addSeries(null, dimple.plot.bar); //
-            myChart.addSeries(null, dimple.plot.line);
+            var projection = d3.geo.albersUsa()
+                    .scale(900)
+                    .translate([width / 2, height / 2]);
+            var path = d3.geo.path().projection(projection);
+            var map = svg.selectAll('path')
+                    .data(geo_data.features)
+                    .enter()
+                    .append('path')
+                    .attr("class", "usa-map")
+                    .attr('d', path)
+                    .style('fill', 'lightBlue')
+                    .style('stroke', 'black')
+                    .style('stroke-width', 0.5);
 
-            var s2 = myChart.addSeries(null, dimple.plot.scatter);
-//            debugger;
-            myChart.draw();
+
+            function draw_geo_plot_data(data) {
+
+
+                var filtered = data.filter(function (d) {
+                    return d['Loan Date Quarter'] == '2013-Q3';
+                });
+                var states = [];
+
+                var state_dict = {};
+                filtered.forEach(function (d) {
+                    states.push(d['state_full']);
+                    state_dict[d['state_full']] = d
+                });
+
+                var loan_max = d3.max(data, function (d) {
+                    return d.LoanAmount;
+                });
+                //http://bl.ocks.org/nbremer/62cf60e116ae821c06602793d265eaf6
+                var colorScale = d3.scale.linear()
+                        .domain([0, loan_max / 2, loan_max])
+                        .range(["#FFFFDD", "#3E9583", "#1F2D86"]);
+                //draw legend
+                {
+
+                    ///////////////////////////////////////////////////////////////////////////
+                    //////////////// Create the gradient for the legend ///////////////////////
+                    ///////////////////////////////////////////////////////////////////////////
+
+                    //Extra scale since the color scale is interpolated
+                    var loanToWidthScale = d3.scale.linear()
+                            .domain([0, loan_max])
+                            .range([0, width]);
+
+                    //Calculate the variables for the temp gradient
+                    var numStops = 10;
+                    var widthRange = loanToWidthScale.domain();
+                    widthRange[2] = widthRange[1] - widthRange[0];
+                    var countPoint = [];
+                    for (var i = 0; i < numStops; i++) {
+                        countPoint.push(i * widthRange[2] / (numStops - 1) + widthRange[0]);
+                    }
+
+                    //Create the gradient
+                    svg.append("defs")
+                            .append("linearGradient")
+                            .attr("id", "legend-loanmap")
+                            .attr("x1", "0%").attr("y1", "0%")
+                            .attr("x2", "100%").attr("y2", "0%")
+                            .selectAll("stop")
+                            .data(d3.range(numStops))
+                            .enter().append("stop")
+                            .attr("offset", function (d, i) {
+                                return loanToWidthScale(countPoint[i]) / width;
+                            })
+                            .attr("stop-color", function (d, i) {
+                                return colorScale(countPoint[i]);
+                            });
+
+                    var legendWidth = Math.min(width * 0.8, 400);
+                    //Color Legend container
+                    var legendsvg = svg.append("g")
+                            .attr("class", "legendWrapper")
+                            .attr("transform", "translate(" + (width / 2) + "," + height * 0.9 + ")");
+
+                    //Draw the Rectangle
+                    legendsvg.append("rect")
+                            .attr("class", "legendRect")
+                            .attr("x", -legendWidth / 2)
+                            .attr("y", 0)
+                            //.attr("rx", hexRadius*1.25/2)
+                            .attr("width", legendWidth)
+                            .attr("height", 10)
+                            .style("fill", "url(#legend-loanmap)");
+
+                    //Append title
+                    legendsvg.append("text")
+                            .attr("class", "legendTitle")
+                            .attr("x", 0)
+                            .attr("y", -10)
+                            .style("text-anchor", "middle")
+                            .text("Loan Amount in USD");
+
+                    //Set scale for x-axis
+                    var xScale = d3.scale.linear()
+                            .range([-legendWidth / 2, legendWidth / 2])
+                            .domain([0, loan_max]);
+
+                    //Define x-axis
+                    var xAxis = d3.svg.axis()
+                            .orient("bottom")
+                            .ticks(5)
+                            //.tickFormat(formatPercent)
+                            .scale(xScale);
+
+                    //Set up X axis
+                    legendsvg.append("g")
+                            .attr("class", "axis")
+                            .attr("transform", "translate(0," + (10) + ")")
+                            .call(xAxis);
+
+
+                    svg.selectAll('path.domain')
+                        .style('fill', "white");
+                }
+                function update_state(d) {
+                    if (states.indexOf(d.properties.name) !== -1) {
+                        return colorScale(state_dict[d.properties.name].LoanAmount);
+                    } else {
+                        return "#FFFFDD";
+                    }
+                }
+
+                svg.selectAll('path.usa-map')
+                        //                        .transition()
+                        //                        .duration(500)
+                        .style('fill', update_state);
+            }
+
+            d3.csv("data/sumloan_by_map.csv", function (d) {
+                d['state_full'] = STATE_DICT[d['BorrowerState']]['full'];
+                d.LoanAmount = parseInt(d.LoanAmount);
+                return d;
+            }, draw_geo_plot_data);
         }
 
     </script>
+    <script type="text/javascript">
+        function draw_trend(data) {
+            "use strict";
+            var svg = drawContainer("#chart-trend");
+
+            chartTrend = new dimple.chart(svg, data);
+            chartTrend.setMargins("60px", "30px", "110px", "70px");
+            var x = chartTrend.addCategoryAxis("x", "Loan Date Quarter");
+            x.addOrderRule(['2005-Q3', '2005-Q4', '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4', '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4', '2008-Q1', '2008-Q2', '2008-Q3', '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4', '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4', '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4', '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4', '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4']);
+            chartTrend.addMeasureAxis("y", "LoanAmount");
+
+            var s1 = chartTrend.addSeries(null, dimple.plot.bar); //
+            chartTrend.addSeries(null, dimple.plot.line);
+
+            var s2 = chartTrend.addSeries(null, dimple.plot.scatter);
+//            debugger;
+            chartTrend.draw();
+        }
+
+    </script>
+    <script type="text/javascript">
+
+
+    </script>
+
+    <script type="text/javascript">
+        //sumloan_by_cate.csv
+        //sumloan_by_map.csv
+        d3.csv("data/sumloan_by_cate.csv", draw_trend);
+        d3.json("data/us-state.json", draw_geo);
+
+        window.onresize = function () {
+            // As of 1.1.0 the second parameter here allows you to draw
+            // without reprocessing data.  This saves a lot on performance
+            // when you know the data won't have changed.
+            chartTrend.draw(0, true);
+        };
+    </script>
 </head>
 <body>
-<script type="text/javascript">
-    d3.select(window).on('resize', resize); 
-    //sumloan_by_cate.csv
-    //sumloan_by_map.csv
-    d3.csv("data/sumloan_by_cate.csv", draw);
-</script>
+<section id="chart-dashboard">
+    <div id="chart-tools">
+        <div id="chart-tool-time-navigator" class="col-md-8"></div>
+    </div>
+</section>
+<section id="chart-view">
+    <div id="chart-trend" class="col-md-8"></div>
+    <div id="chart-cg-br" class="col-md-4"></div>
+</section>
+<section id="chart-view-2">
+    <div id="chart-geo" class="col-md-8"></div>
+    <div id="chart-pr-br" class="col-md-4"></div>
+</section>
 </body>
 </html>
