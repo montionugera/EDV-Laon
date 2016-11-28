@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .box {
+        font: 10px sans-serif;
+    }
+
+    .box line,
+    .box rect,
+    .box circle {
+        fill: steelblue;
+        stroke: #000;
+        stroke-width: 1px;
+    }
+
+    .box .center {
+        stroke-dasharray: 3, 3;
+    }
+
+    .box .outlier {
+        fill: none;
+        stroke: #000;
+    }
+
+    .axis {
+        font: 12px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+</style>
+<body>
+<script src="js/d3.v3.min.js"></script>
+<script src="js/modify_box.js"></script>
+<script>
+    var labels = true; // show the text labels beside individual boxplots?
+
+    var margin = {top: 30, right: 50, bottom: 70, left: 50};
+    var width = 800 - margin.left - margin.right;
+    var height = 400 - margin.top - margin.bottom;
+    var chartSize = {width: width, height:height};
+    var min = Infinity,
+            max = -Infinity;
+
+    // parse in the data
+    d3.csv("data/data-box.csv", function (error, csv) {
+        // using an array of arrays with
+        // data[n][2]
+        // where n = number of columns in the csv file
+        // data[i][0] = name of the ith column
+        // data[i][1] = array of values of ith column
+
+        var data = [];
+        data[0] = [];
+        data[1] = [];
+        data[2] = [];
+        data[3] = [];
+        // add more rows if your csv file has more columns
+
+        // add here the header of the csv file
+        data[0][0] = "Q1";
+        data[1][0] = "Q2";
+        data[2][0] = "Q3";
+        data[3][0] = "Q4";
+        // add more rows if your csv file has more columns
+
+        data[0][1] = [];
+        data[1][1] = [];
+        data[2][1] = [];
+        data[3][1] = [];
+
+        csv.forEach(function (x) {
+            var v1 = Math.floor(x.Q1),
+                    v2 = Math.floor(x.Q2),
+                    v3 = Math.floor(x.Q3),
+                    v4 = Math.floor(x.Q4);
+            // add more variables if your csv file has more columns
+
+            var rowMax = Math.max(v1, Math.max(v2, Math.max(v3, v4)));
+            var rowMin = Math.min(v1, Math.min(v2, Math.min(v3, v4)));
+
+//            data[0][1].push(v1);
+//            data[1][1].push(v2);
+//            data[2][1].push(v3);
+//            data[3][1].push(v4);
+            // add more rows if your csv file has more columns
+
+            if (rowMax > max) max = rowMax;
+            if (rowMin < min) min = rowMin;
+        });
+        var boundArr = [0, 45000];
+        var chart = d3.box()
+                    .whiskerValue(function(d){
+                        return [2100,31000]
+                    }).quartiles(function(d){
+                        return [6000,11000,23000]
+                    }).boundValue(function(d){
+                        return [0,10000]
+                    })
+                .height(height)
+                .domain(boundArr)
+                .showLabels(labels);
+
+        var svg = d3.select("body").append("svg");
+        var domain = ["Q1", "Q2", "Q3", "Q4"];
+        chart.drawChart(svg, margin, domain, data, boundArr, chartSize);
+
+
+    });
+
+
+
+</script>

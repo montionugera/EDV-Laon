@@ -32,7 +32,6 @@ ListingCateDict = {0: 'Not Available', 1: 'Debt Consolidation', 2: 'Home Improve
 def custom_process_file(origin_file_path):
     sumloan_by_map = 'sumloan_by_map.csv'
     sumloan_by_cate = 'sumloan_by_cate.csv'
-    br_by_cg = 'br_by_cg.csv'
     br_by_pr = 'br_by_pr.csv'
     df = pd.read_csv(origin_file_path)
     df['loan_dttm'] = pd.to_datetime(df['LoanOriginationDate'], format='%Y-%m-%d %H:%M:%S')
@@ -50,21 +49,31 @@ def custom_process_file(origin_file_path):
     agg = agg[['Loan Date Quarter', 'BorrowerState', 'LoanAmount']]
     file_path = os.path.join(data_path, sumloan_by_map)
     agg.to_csv(file_path, sep=',', index=False)
+    def buildBoxPlotData(df,groupKey):
+        agg_025 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.025)
+        agg_975 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.975)
+        agg_min = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).min()
+        agg_max = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).max()
+        agg_med = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).median()
 
-    agg_025 = df.groupby(by=['Loan Date Quarter', 'CreditGrade'], as_index=True).quantile(.025)
-    agg_975 = df.groupby(by=['Loan Date Quarter', 'CreditGrade'], as_index=True).quantile(.975)
-    agg_5 = df.groupby(by=['Loan Date Quarter', 'CreditGrade'], as_index=True).quantile(.5)
-    agg_med = df.groupby(by=['Loan Date Quarter', 'CreditGrade'], as_index=True).median()
-    agg = agg_med[[ 'BorrowerRate']]
-    agg['BorrowerRate_025'] = agg_025[['BorrowerRate']]['BorrowerRate']
-    agg['BorrowerRate_975'] = agg_975[['BorrowerRate']]['BorrowerRate']
+        agg = agg_med[['BorrowerRate']]
+        agg['BorrowerRate_median'] = agg_med[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_025'] = agg_025[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_975'] = agg_975[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_min'] = agg_min[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_max'] = agg_max[['BorrowerRate']]['BorrowerRate']
+        return agg
+
+    br_by_cg = 'br_by_cg.csv'
     file_path = os.path.join(data_path, br_by_cg)
+    agg = buildBoxPlotData(df,'CreditGrade')
     agg.to_csv(file_path, sep=',', index=True)
 
-    agg = df.groupby(by=['Loan Date Quarter', 'ProsperRating'], as_index=False).sum()
-    agg = agg[['Loan Date Quarter', 'ProsperRating', 'BorrowerRate']]
-    file_path = os.path.join(data_path, br_by_pr)
-    agg.to_csv(file_path, sep=',', index=False)
+    br_by_cg = 'br_by_pr.csv'
+    file_path = os.path.join(data_path, br_by_cg)
+    agg = buildBoxPlotData(df, 'ProsperRating')
+    agg.to_csv(file_path, sep=',', index=True)
+
 
 
 custom_process_file(origin_file_path)

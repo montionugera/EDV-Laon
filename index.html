@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <script src="js/d3.v3.min.js"></script>
     <script src="js/dimple.v2.0.0.min.js"></script>
+    <script src="js/modify_box.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Latest compiled and minified CSS -->
@@ -11,6 +12,7 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/jquery.min.js"></script>
@@ -71,6 +73,19 @@
             'OR': {'short': 'OR', 'id': '41', 'full': 'Oregon'},
             'SD': {'short': 'SD', 'id': '46', 'full': 'South Dakota'}
         };
+        var quarters = ['2005-Q1', '2005-Q2', '2005-Q3', '2005-Q4',
+            '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4',
+            '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4',
+            '2008-Q1', '2008-Q2', '2008-Q3', '2008-Q4',
+            '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4',
+            '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4',
+            '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4',
+            '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4',
+            '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4'];
+        var drawGeoUpdateFunc = null;
+        var drawCgVsBrUpdateFunc = null;
+        var drawCgVsPrUpdateFunc = null;
+        var target_quater = '2009-Q1';
     </script>
     <style>
         circle.dimple-series-1 {
@@ -84,9 +99,13 @@
     <script type="text/javascript">
 
         var chartTrend, chartGeo;
-        var width = 900, height = 600;
+        var width = 700, height = 350;
+        var margin_default = 60;
         function drawContainer(chart_id) {
-            var svg = dimple.newSvg(chart_id, "100%", "600px");
+            var svg = d3.select(chart_id)
+            .append("svg")
+              .attr("width", width + margin_default)
+              .attr("height", height + margin_default)
             return svg;
         }
     </script>
@@ -99,7 +118,7 @@
             //ref : http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
 
             var projection = d3.geo.albersUsa()
-                    .scale(900)
+                    .scale(width)
                     .translate([width / 2, height / 2]);
             var path = d3.geo.path().projection(projection);
             var map = svg.selectAll('path')
@@ -115,18 +134,6 @@
 
             function draw_geo_plot_data(data) {
 
-
-                var filtered = data.filter(function (d) {
-                    return d['Loan Date Quarter'] == '2013-Q3';
-                });
-                var states = [];
-
-                var state_dict = {};
-                filtered.forEach(function (d) {
-                    states.push(d['state_full']);
-                    state_dict[d['state_full']] = d
-                });
-
                 var loan_max = d3.max(data, function (d) {
                     return d.LoanAmount;
                 });
@@ -136,11 +143,6 @@
                         .range(["#FFFFDD", "#3E9583", "#1F2D86"]);
                 //draw legend
                 {
-
-                    ///////////////////////////////////////////////////////////////////////////
-                    //////////////// Create the gradient for the legend ///////////////////////
-                    ///////////////////////////////////////////////////////////////////////////
-
                     //Extra scale since the color scale is interpolated
                     var loanToWidthScale = d3.scale.linear()
                             .domain([0, loan_max])
@@ -181,7 +183,7 @@
                     legendsvg.append("rect")
                             .attr("class", "legendRect")
                             .attr("x", -legendWidth / 2)
-                            .attr("y", 0)
+                            .attr("y", margin_default/2 + 10)
                             //.attr("rx", hexRadius*1.25/2)
                             .attr("width", legendWidth)
                             .attr("height", 10)
@@ -191,9 +193,9 @@
                     legendsvg.append("text")
                             .attr("class", "legendTitle")
                             .attr("x", 0)
-                            .attr("y", -10)
+                            .attr("y", -height +margin_default)
                             .style("text-anchor", "middle")
-                            .text("Loan Amount in USD");
+                            .text("Loan Amount in USD vs State");
 
                     //Set scale for x-axis
                     var xScale = d3.scale.linear()
@@ -210,25 +212,42 @@
                     //Set up X axis
                     legendsvg.append("g")
                             .attr("class", "axis")
-                            .attr("transform", "translate(0," + (10) + ")")
+                            .attr("transform", "translate(0," + (margin_default/2+20) + ")")
                             .call(xAxis);
 
 
                     svg.selectAll('path.domain')
-                        .style('fill', "white");
-                }
-                function update_state(d) {
-                    if (states.indexOf(d.properties.name) !== -1) {
-                        return colorScale(state_dict[d.properties.name].LoanAmount);
-                    } else {
-                        return "#FFFFDD";
-                    }
+                            .style('fill', "white");
                 }
 
-                svg.selectAll('path.usa-map')
-                        //                        .transition()
-                        //                        .duration(500)
-                        .style('fill', update_state);
+                drawGeoUpdateFunc = function (theQuarter) {
+                    var state_dict = {};
+                    var states = [];
+
+                    {
+
+                        var filtered = data.filter(function (d) {
+                            return d['Loan Date Quarter'] == theQuarter;
+                        });
+
+                        filtered.forEach(function (d) {
+                            states.push(d['state_full']);
+                            state_dict[d['state_full']] = d
+                        });
+                    }
+                    function update_state(d) {
+                        if (states.indexOf(d.properties.name) !== -1) {
+                            return colorScale(state_dict[d.properties.name].LoanAmount);
+                        } else {
+                            return "#FFFFDD";
+                        }
+                    }
+
+                    svg.selectAll('path.usa-map').transition()
+                                                  .duration(500)
+                            .style('fill', update_state);
+                };
+                drawGeoUpdateFunc(target_quater);
             }
 
             d3.csv("data/sumloan_by_map.csv", function (d) {
@@ -261,6 +280,162 @@
     </script>
     <script type="text/javascript">
 
+        var chart_cg_br_id = "#chart-cg-br";
+        var chart_cg_br = null;
+        function draw_cg_br(data) {
+            "use strict";
+            var svg = drawContainer(chart_cg_br_id);
+            var max = 0.5;
+            var credigradeDomain = [];
+            data.forEach(function (d) {
+                if (credigradeDomain.indexOf(d.CreditGrade) == -1) {
+                    credigradeDomain.push(d.CreditGrade);
+                }
+            });
+            credigradeDomain = ["AA", "A", "B", "C", "D", "E", "HR", "NC"];
+
+
+            function getFilterData(quarter) {
+                var filtered = data.filter(function (d) {
+                    return d['Loan Date Quarter'] == quarter;
+                });
+                var filtered_dict = {};
+
+                for (var i in credigradeDomain) {
+                    var creditGrade = credigradeDomain[i];
+                    filtered_dict[creditGrade] = {
+                        BorrowerRate_median: 0, BorrowerRate_max: 0, BorrowerRate_min: 0,
+                        BorrowerRate_975: 0, BorrowerRate_025: 0
+                    }
+                }
+                filtered.forEach(function (d) {
+                    filtered_dict[d.CreditGrade] = d;
+                });
+                var filtered_data = [];
+                for (var i in credigradeDomain) {
+                    filtered_data[i] = [];
+                    var creditGrade = credigradeDomain[i];
+                    filtered_data[i][0] = creditGrade;
+                    filtered_data[i][1] = filtered_dict[creditGrade]
+                }
+                return filtered_data
+            }
+
+            var boundArr = [0, max];
+
+//            chart_cg_br.draw();
+            var margin = {top: margin_default, right: margin_default, bottom: margin_default, left: margin_default};
+            var sub_width = width - margin_default;
+            var sub_height = height - margin_default;
+            var chartSize = {width: sub_width, height: sub_height};
+            var updateDataList =getFilterData(target_quater);
+            var chart = d3.box()
+                    .whiskerValue(function (d) {
+                        return [d.BorrowerRate_max, d.BorrowerRate_min];
+                    }).quartiles(function (d) {
+                        return [d.BorrowerRate_025, d.BorrowerRate_median, d.BorrowerRate_975];
+                    }).boundValue(function (d) {
+                        return [0, max]
+                    }).updateDataList(updateDataList)
+                    .height(chartSize.height)
+                    .domain(boundArr)
+                    .showLabels(true);
+            var label = {title : "Borrower Rate V Credit Grade",x:"Credit Grade", y:"Borrower Rate"}
+            chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize,label);
+            drawCgVsBrUpdateFunc = function (target_quater) {
+                var filterData = getFilterData(target_quater);
+                var updateFilterData = function (d,i) {
+//                    debugger;
+                    debugger;
+                    console.log("updateFilterData : "+i)
+                    return filterData[i];
+                };
+                var updateDataList = filterData;
+                chart.updateDataList(updateDataList);
+//                svg.data(filterData).call(chart.duration(100));
+                chart.myGroupBox.call(chart.duration(500));
+
+            }
+        }
+    </script>
+    <script type="text/javascript">
+
+
+        var chart_pr_br_id = "#chart-pr-br";
+        var chart_pr_br = null;
+        function draw_pr_br(data) {
+            console.log("draw_pr_br");
+            "use strict";
+            var svg = drawContainer(chart_pr_br_id);
+            var max = 0.5;
+            var prosperRatingDomain = [];
+            data.forEach(function (d) {
+                if (prosperRatingDomain.indexOf(d.ProsperRating) == -1) {
+                    prosperRatingDomain.push(d.ProsperRating);
+                }
+            });
+            prosperRatingDomain = ["AA", "A", "B", "C", "D", "E", "HR", "N/A"];
+
+
+            function getFilterData(quarter) {
+                var filtered = data.filter(function (d) {
+                    return d['Loan Date Quarter'] == quarter;
+                });
+                var filtered_dict = {};
+
+                for (var i in prosperRatingDomain) {
+                    var ProsperRating = prosperRatingDomain[i];
+                    filtered_dict[ProsperRating] = {
+                        BorrowerRate_median: 0, BorrowerRate_max: 0, BorrowerRate_min: 0,
+                        BorrowerRate_975: 0, BorrowerRate_025: 0
+                    }
+                }
+                filtered.forEach(function (d) {
+                    filtered_dict[d.ProsperRating] = d;
+                });
+                var filtered_data = [];
+                for (var i in prosperRatingDomain) {
+                    filtered_data[i] = [];
+                    var ProsperRating = prosperRatingDomain[i];
+                    filtered_data[i][0] = ProsperRating;
+                    filtered_data[i][1] = filtered_dict[ProsperRating]
+                }
+                return filtered_data
+            }
+
+            var boundArr = [0, max];
+
+//            chart_pr_br.draw();
+            var margin = {top: margin_default, right: margin_default, bottom: margin_default, left: margin_default};
+            var sub_width = width - margin_default;
+            var sub_height = height - margin_default;
+            var chartSize = {width: sub_width, height: sub_height};
+            var updateDataList =getFilterData(target_quater);
+            var chart = d3.box()
+                    .whiskerValue(function (d) {
+                        return [d.BorrowerRate_max, d.BorrowerRate_min];
+                    }).quartiles(function (d) {
+                        return [d.BorrowerRate_025, d.BorrowerRate_median, d.BorrowerRate_975];
+                    }).boundValue(function (d) {
+                        return [0, max]
+                    }).updateDataList(updateDataList)
+                    .height(chartSize.height)
+                    .domain(boundArr)
+                    .showLabels(true);
+            var label = {title : "Borrower Rate V Prosper Rating",x:"Prosper Rating", y:"Borrower Rate"}
+            chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize,label);
+            drawCgVsPrUpdateFunc = function (target_quater) {
+                var filterData = getFilterData(target_quater);
+                var updateFilterData = function (d,i) {
+                    console.log("updateFilterData : "+i)
+                    return filterData[i];
+                };
+                var updateDataList = filterData;
+                chart.updateDataList(updateDataList);
+                chart.myGroupBox.call(chart.duration(500));
+
+            }
+        }
 
     </script>
 
@@ -269,28 +444,81 @@
         //sumloan_by_map.csv
         d3.csv("data/sumloan_by_cate.csv", draw_trend);
         d3.json("data/us-state.json", draw_geo);
+        d3.csv("data/br_by_cg.csv", draw_cg_br);
+        d3.csv("data/br_by_pr.csv", draw_pr_br);
 
         window.onresize = function () {
             // As of 1.1.0 the second parameter here allows you to draw
             // without reprocessing data.  This saves a lot on performance
             // when you know the data won't have changed.
-            chartTrend.draw(0, true);
+//            chartTrend.draw(0, true);
         };
+
+    </script>
+    <script>
+        var quarter_idx = 0;
+        function update(quarterValue) {
+                drawGeoUpdateFunc(quarterValue);
+            drawCgVsBrUpdateFunc(quarterValue);
+            drawCgVsPrUpdateFunc(quarterValue);
+        }
+        var quarterInterval = setInterval(function () {
+            console.log(drawCgVsPrUpdateFunc);
+            if(drawGeoUpdateFunc ==null || drawCgVsBrUpdateFunc== null || drawCgVsBrUpdateFunc==null){
+                return;
+            }
+            update(quarters[quarter_idx]);
+
+            quarter_idx++;
+
+            if (quarter_idx >= quarters.length) {
+                clearInterval(quarterInterval);
+                return;
+                var buttons = d3.select("#quarter-navigator")
+                        .selectAll("li")
+                        .data(quarters)
+                        .enter()
+                        .append("li")
+                        .attr("class", "nav-item")
+                        .append("a")
+                        .attr("class", "nav-nav-link")
+                        .text(function (d) {
+                            return d;
+                        });
+                buttons.on("click", function (d) {
+                    d3.select("#quarter-navigator")
+                            .selectAll("li")
+                            .attr("class", "nav-item")
+
+                    d3.select(this.parentNode)
+                            .transition()
+                            .duration(500)
+                            .attr("class", "nav-item active");
+
+                    update(d);
+                });
+            }
+        }, 750);
     </script>
 </head>
 <body>
-<section id="chart-dashboard">
-    <div id="chart-tools">
-        <div id="chart-tool-time-navigator" class="col-md-8"></div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-brand"> Data Visualization Loan in USA from 2009 to 2013 :</div>
+    <div class="navbar-brand"></div>
+    <div class="nav">
+        <div class="nav-item nav-link"></div>
     </div>
-</section>
+    <ul class="nav navbar-nav" id="quarter-navigator">
+    </ul>
+</nav>
+<div style="padding-top: 60px"></div>
 <section id="chart-view">
-    <div id="chart-trend" class="col-md-8"></div>
-    <div id="chart-cg-br" class="col-md-4"></div>
+    <div id="chart-trend" class="col-md-6"></div>
+    <div id="chart-cg-br" class="col-md-6"></div>
 </section>
 <section id="chart-view-2">
-    <div id="chart-geo" class="col-md-8"></div>
-    <div id="chart-pr-br" class="col-md-4"></div>
+    <div id="chart-geo" class="col-md-6"></div>
+    <div id="chart-pr-br" class="col-md-6"></div>
 </section>
 </body>
 </html>
