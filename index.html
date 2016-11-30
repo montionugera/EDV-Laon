@@ -110,6 +110,15 @@
         h2 {
             text-align: center;
         }
+        #quarter-display {
+            color:white;
+        }
+        #navigator-minus {
+            color:lightblue;
+        }
+        #navigator-plus {
+            color:lightblue;
+        }
     </style>
     <script type="text/javascript">
 
@@ -514,11 +523,29 @@
     </script>
     <script>
         var quarter_idx = 0;
-        var max_qidx = quarters.length-1;
+        var max_qidx = quarters.length - 1;
         var min_qidx = 0;
         var autoMode = true;
         var updateQuarterDisplay = function (quarterValue) {
             d3.select("#quarter-display").text(quarterValue);
+        };
+        var updateQuarterNavigateTools = function (quarterValue) {
+            if (shouldChange(quarter_idx - 1)) {
+                d3.select("#navigator-minus").attr("style", "display: block");
+            } else {
+                d3.select("#navigator-minus").attr("style", "display: none");
+            }
+            if (shouldChange(quarter_idx + 1)) {
+                d3.select("#navigator-plus").attr("style", "display: block");
+            } else {
+                d3.select("#navigator-plus").attr("style", "display: none");
+            }
+        };
+        var shouldChange = function (newQIDX) {
+            if (newQIDX > max_qidx || newQIDX < min_qidx) {
+                return false;
+            }
+            return true;
         };
         function update(quarterValue) {
             drawGeoUpdateFunc(quarterValue);
@@ -526,9 +553,10 @@
             drawCgVsPrUpdateFunc(quarterValue);
             drawTrendUpdateFunc(quarterValue);
             updateQuarterDisplay(quarterValue);
-            if(autoMode){
+            if (autoMode) {
                 return
             }
+            updateQuarterNavigateTools(quarterValue);
             ion.sound.play("snap");
         }
         //        d3.select(".navigator-tools").style("display:none");
@@ -539,16 +567,12 @@
             update(quarters[quarter_idx]);
 
             quarter_idx++;
-            var shouldChange = function (newQIDX) {
-                if (newQIDX > max_qidx || newQIDX < min_qidx) {
-                    return false;
-                }
-                return true;
-            };
             if (quarter_idx >= quarters.length) {
                 clearInterval(quarterInterval);
-                quarter_idx = quarter_idx-1;
+                quarter_idx = quarter_idx - 1;
                 autoMode = false;
+                d3.select("#navigator-minus").attr("style", "display: block");
+                d3.select("#navigator-plus").attr("style", "display: block");
                 var buttons = d3.select("#navigator-minus").on("click", function (d) {
                     var newQIDX = quarter_idx - 1;
                     if (shouldChange(newQIDX)) {
@@ -566,6 +590,7 @@
 
                 });
                 d3.select(".navigator-tools").style("opacity", 1);
+                updateQuarterNavigateTools(quarters[quarter_idx])
             }
         }, 750);
     </script>
@@ -577,9 +602,11 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-brand"> Data Visualization Loan in USA from 2005-Q3 to
     </div>
-    <div class="navbar-brand navigator-tools" id="navigator-minus"> <<</div>
-    <div class="navbar-brand" id="quarter-display"> 2005-Q3</div>
-    <div class="navbar-brand navigator-tools" id="navigator-plus"> >></div>
+    <div style="color: lightskyblue">
+        <div class="navbar-brand navigator-tools" id="navigator-minus" style="display: none"> <<</div>
+        <div class="navbar-brand" id="quarter-display"> 2005-Q3</div>
+        <div class="navbar-brand navigator-tools" id="navigator-plus" style="display: none"> >></div>
+    </div>
 </nav>
 <div style="padding-top: 60px"></div>
 <section id="chart-view">

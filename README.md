@@ -17,8 +17,15 @@ The d3.js library has a steeper learning curve, and we encourage you to take on 
 
 ### Design
 
-The project decide to use XXX chart because it is suite with differentiate data 
-and to support more than to variable we use xxx technique to enchant visualize.
+The project decide to use :
+
+#### Bar chart and Line Chart
+because it is suite with differentiate data and show the trend of data.
+
+#### Geomap
+
+#### Boxplot
+because it is suite with differentiate data between category and can also show the distribution of it.
  
 
 ### Step
@@ -27,7 +34,9 @@ and to support more than to variable we use xxx technique to enchant visualize.
 After I got the data I try to mark down what is the interesting story behide this 
 and I found out that the most interesting variables are 
 amount of loan and yield; I try to draft the visualization by using tableau public and found the co-related interesting variables such as
-Loan Original Date, Employment Status, Listing Category and Borrower State.
+Loan Original Date, Brrower Rating , Credit Grade, Prosper Rating and Borrower State.
+
+draft file : draft.pdf ()
 
 #### Processing Data
 
@@ -38,4 +47,7 @@ be used to create the visualization by create python script using numpy and pand
 2nd State vs vs Sum(LoanAmount) On date - Show Loan density
 3nd View CreditGrade vs Borrower Rate - Show relation between Grade and Borrower Rate
 4nd View ProsperRating vs Borrower Rate - Show relation between Grade and Borrower Rate
+
+
+### Reviews
 
