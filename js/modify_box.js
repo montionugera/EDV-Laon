@@ -330,7 +330,6 @@
         box.drawYAxis = function (svg, margin, dataValueBound, chartSize, label) {
 
             // the y-axis
-            console.log("drawYAxis");
             var y = d3.scale.linear()
                 .domain(dataValueBound)
                 .range([chartSize.height + margin.top, margin.top]);
