@@ -514,7 +514,7 @@
     </script>
     <script>
         var quarter_idx = 0;
-        var max_qidx = quarters.length;
+        var max_qidx = quarters.length-1;
         var min_qidx = 0;
         var autoMode = true;
         var updateQuarterDisplay = function (quarterValue) {
@@ -547,6 +547,7 @@
             };
             if (quarter_idx >= quarters.length) {
                 clearInterval(quarterInterval);
+                quarter_idx = quarter_idx-1;
                 autoMode = false;
                 var buttons = d3.select("#navigator-minus").on("click", function (d) {
                     var newQIDX = quarter_idx - 1;
