@@ -18,7 +18,21 @@
     <script src="js/jquery.min.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/ion.sound.min.js"></script>
     <script>
+
+        ion.sound({
+            sounds: [
+                {name: "snap"},
+            ],
+
+            // main config
+            path: "sfx/",
+            preload: true,
+            multiplay: true,
+            volume: 0.1
+        });
+
         let STATE_DICT = {
             'WA': {'short': 'WA', 'id': '53', 'full': 'Washington'},
             'DE': {'short': 'DE', 'id': '10', 'full': 'Delaware'},
@@ -168,9 +182,6 @@
                     var widthRange = loanToWidthScale.domain();
                     widthRange[2] = widthRange[1] - widthRange[0];
 
-                    console.log(loan_max);
-                    console.log(" widthRange : ");
-                    console.log(widthRange);
                     var countPoint = [];
                     for (var i = 0; i < numStops; i++) {
                         countPoint.push(i * widthRange[2] / (numStops - 1) + widthRange[0]);
@@ -245,7 +256,7 @@
                     var loanMaxNew = d3.max(filtered, function (d) {
                         return d.LoanAmount;
                     });
-                    if(loanMaxNew == undefined || loanMaxNew < loanMaxDefault){
+                    if (loanMaxNew == undefined || loanMaxNew < loanMaxDefault) {
                         loanMaxNew = loanMaxDefault;
                     }
                     filtered.forEach(function (d) {
@@ -506,7 +517,8 @@
         var quarter_idx = 0;
         var max_qidx = quarters.length;
         var min_qidx = 0;
-        var updateQuarterDisplay = function(quarterValue){
+        var autoMode = true;
+        var updateQuarterDisplay = function (quarterValue) {
             d3.select("#quarter-display").text(quarterValue);
         };
         function update(quarterValue) {
@@ -515,8 +527,12 @@
             drawCgVsPrUpdateFunc(quarterValue);
             drawTrendUpdateFunc(quarterValue);
             updateQuarterDisplay(quarterValue);
+            if(autoMode){
+                return
+            }
+            ion.sound.play("snap");
         }
-//        d3.select(".navigator-tools").style("display:none");
+        //        d3.select(".navigator-tools").style("display:none");
         var quarterInterval = setInterval(function () {
             if (drawGeoUpdateFunc == null || drawCgVsBrUpdateFunc == null || drawCgVsBrUpdateFunc == null) {
                 return;
@@ -525,17 +541,17 @@
 
             quarter_idx++;
             var shouldChange = function (newQIDX) {
-              if(newQIDX > max_qidx || newQIDX < min_qidx){
-                  return false;
-              }
+                if (newQIDX > max_qidx || newQIDX < min_qidx) {
+                    return false;
+                }
                 return true;
             };
             if (quarter_idx >= quarters.length) {
                 clearInterval(quarterInterval);
-
+                autoMode = false;
                 var buttons = d3.select("#navigator-minus").on("click", function (d) {
                     var newQIDX = quarter_idx - 1;
-                    if(shouldChange(newQIDX)){
+                    if (shouldChange(newQIDX)) {
                         quarter_idx = newQIDX;
                         update(quarters[quarter_idx]);
                     }
@@ -543,7 +559,7 @@
                 });
                 var buttons = d3.select("#navigator-plus").on("click", function (d) {
                     var newQIDX = quarter_idx + 1;
-                    if(shouldChange(newQIDX)){
+                    if (shouldChange(newQIDX)) {
                         quarter_idx = newQIDX;
                         update(quarters[quarter_idx]);
                     }
@@ -555,12 +571,15 @@
     </script>
 </head>
 <body>
+<audio controls preload="none">
+    <source src="sfx/switch7.wav" type="audio/wav">
+</audio>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-brand"> Data Visualization Loan in USA from 2005 to 2013 :
     </div>
-    <div class="navbar-brand navigator-tools" id="navigator-minus"> << </div>
-    <div class="navbar-brand" id="quarter-display"> 2005 </div>
-    <div class="navbar-brand navigator-tools" id="navigator-plus"> >> </div>
+    <div class="navbar-brand navigator-tools" id="navigator-minus"> <<</div>
+    <div class="navbar-brand" id="quarter-display"> 2005</div>
+    <div class="navbar-brand navigator-tools" id="navigator-plus"> >></div>
 </nav>
 <div style="padding-top: 60px"></div>
 <section id="chart-view">
