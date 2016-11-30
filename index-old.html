@@ -73,7 +73,7 @@
             'OR': {'short': 'OR', 'id': '41', 'full': 'Oregon'},
             'SD': {'short': 'SD', 'id': '46', 'full': 'South Dakota'}
         };
-        var quarters = ['2005-Q3', '2005-Q4',
+        var quarters = ['2005-Q1', '2005-Q2', '2005-Q3', '2005-Q4',
             '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4',
             '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4',
             '2008-Q1', '2008-Q2', '2008-Q3', '2008-Q4',
@@ -100,13 +100,13 @@
     <script type="text/javascript">
 
         var chartTrend, chartGeo;
-        var width = 600, height = 300;
+        var width = 600 , height = 300;
         var margin_default = 60;
         function drawContainer(chart_id) {
             var svg = d3.select(chart_id)
-                    .append("svg")
-                    .attr("width", width + margin_default)
-                    .attr("height", height + margin_default)
+            .append("svg")
+              .attr("width", width + margin_default)
+              .attr("height", height + margin_default)
             return svg;
         }
     </script>
@@ -117,9 +117,9 @@
             var svg = drawContainer('#chart-geo');
             // draw map
             //ref : http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
-            var chartSize = {w: width + margin_default, h: height + margin_default}
+            var chartSize = {w:width+ margin_default,h:height+ margin_default}
             var projection = d3.geo.albersUsa()
-                    .scale(width + margin_default)
+                    .scale(width+ margin_default)
                     .translate([width / 2, height / 2]);
             var path = d3.geo.path().projection(projection);
             var map = svg.selectAll('path')
@@ -139,84 +139,70 @@
                     return d.LoanAmount;
                 });
                 //http://bl.ocks.org/nbremer/62cf60e116ae821c06602793d265eaf6
+                var colorScale = d3.scale.linear()
+                        .domain([0, loan_max / 2, loan_max])
+                        .range(["#FFFFDD", "#3E9583", "#1F2D86"]);
                 //draw legend
-                //Extra scale since the color scale is interpolated
-
-                //Calculate the variables for the temp gradient
-                var numStops = 10;
-
-                //Create the gradient
-                var legendColorRect = svg.append("defs")
-                        .append("linearGradient")
-                        .attr("id", "legend-loanmap")
-                        .attr("x1", "0%").attr("y1", "0%")
-                        .attr("x2", "100%").attr("y2", "0%")
-                        .selectAll("stop")
-                        .data(d3.range(numStops))
-                        .enter().append("stop");
-
-                var drawlegendColor = function (loan_max) {
-
-
-                    var colorScale = d3.scale.linear()
-                            .domain([0, loan_max / 2, loan_max])
-                            .range(["#FFFFDD", "#3E9583", "#1F2D86"]);
+                {
+                    //Extra scale since the color scale is interpolated
                     var loanToWidthScale = d3.scale.linear()
                             .domain([0, loan_max])
                             .range([0, width]);
 
+                    //Calculate the variables for the temp gradient
+                    var numStops = 10;
                     var widthRange = loanToWidthScale.domain();
                     widthRange[2] = widthRange[1] - widthRange[0];
-
-                    console.log(loan_max);
-                    console.log(" widthRange : ");
-                    console.log(widthRange);
                     var countPoint = [];
                     for (var i = 0; i < numStops; i++) {
                         countPoint.push(i * widthRange[2] / (numStops - 1) + widthRange[0]);
                     }
-                    legendColorRect.attr("offset", function (d, i) {
+
+                    //Create the gradient
+                    svg.append("defs")
+                            .append("linearGradient")
+                            .attr("id", "legend-loanmap")
+                            .attr("x1", "0%").attr("y1", "0%")
+                            .attr("x2", "100%").attr("y2", "0%")
+                            .selectAll("stop")
+                            .data(d3.range(numStops))
+                            .enter().append("stop")
+                            .attr("offset", function (d, i) {
                                 return loanToWidthScale(countPoint[i]) / width;
                             })
                             .attr("stop-color", function (d, i) {
                                 return colorScale(countPoint[i]);
                             });
-                    return colorScale;
-                };
 
-                var legendWidth = Math.min(width * 0.8, 400);
-                //Color Legend container
-                var legendsvg = svg.append("g")
-                        .attr("class", "legendWrapper")
-                        .attr("transform", "translate(" + (width / 2) + "," + height * 0.9 + ")");
+                    var legendWidth = Math.min(width * 0.8, 400);
+                    //Color Legend container
+                    var legendsvg = svg.append("g")
+                            .attr("class", "legendWrapper")
+                            .attr("transform", "translate(" + (width / 2) + "," + height * 0.9 + ")");
 
-                //Draw the Rectangle
-                legendsvg.append("rect")
-                        .attr("class", "legendRect")
-                        .attr("x", -legendWidth / 2)
-                        .attr("y", margin_default / 2 + 10)
-                        //.attr("rx", hexRadius*1.25/2)
-                        .attr("width", legendWidth)
-                        .attr("height", 10)
-                        .style("fill", "url(#legend-loanmap)");
+                    //Draw the Rectangle
+                    legendsvg.append("rect")
+                            .attr("class", "legendRect")
+                            .attr("x", -legendWidth / 2)
+                            .attr("y", margin_default/2 + 10)
+                            //.attr("rx", hexRadius*1.25/2)
+                            .attr("width", legendWidth)
+                            .attr("height", 10)
+                            .style("fill", "url(#legend-loanmap)");
 
-                //Append title
-                legendsvg.append("text")
-                        .attr("class", "legendTitle")
-                        .attr("x", 0)
-                        .attr("y", -height + margin_default - 5)
-                        .style("text-anchor", "middle")
-                        .text("Loan Amount in USD vs State");
+                    //Append title
+                    legendsvg.append("text")
+                            .attr("class", "legendTitle")
+                            .attr("x", 0)
+                            .attr("y", -height +margin_default-5)
+                            .style("text-anchor", "middle")
+                            .text("Loan Amount in USD vs State");
 
-                var axis = legendsvg.append("g")
-                        .attr("class", "axis")
-                        .attr("transform", "translate(0," + (margin_default / 2 + 20) + ")");
-
-                var drawXScale = function (loan_max) {
                     //Set scale for x-axis
                     var xScale = d3.scale.linear()
                             .range([-legendWidth / 2, legendWidth / 2])
                             .domain([0, loan_max]);
+
                     //Define x-axis
                     var xAxis = d3.svg.axis()
                             .orient("bottom")
@@ -225,37 +211,31 @@
                             .scale(xScale);
 
                     //Set up X axis
-                    axis.call(xAxis);
+                    legendsvg.append("g")
+                            .attr("class", "axis")
+                            .attr("transform", "translate(0," + (margin_default/2+20) + ")")
+                            .call(xAxis);
+
+
                     svg.selectAll('path.domain')
                             .style('fill', "white");
-                };
-
-                var colorScale = drawlegendColor(loan_max);
-                drawXScale(loan_max);
-
+                }
 
                 drawGeoUpdateFunc = function (theQuarter) {
                     var state_dict = {};
                     var states = [];
-                    var loanMaxDefault = 10000;
-                    var filtered = data.filter(function (d) {
-                        return d['Loan Date Quarter'] == theQuarter;
-                    });
 
-                    var loanMaxNew = d3.max(filtered, function (d) {
-                        return d.LoanAmount;
-                    });
-                    if(loanMaxNew == undefined || loanMaxNew < loanMaxDefault){
-                        loanMaxNew = loanMaxDefault;
+                    {
+
+                        var filtered = data.filter(function (d) {
+                            return d['Loan Date Quarter'] == theQuarter;
+                        });
+
+                        filtered.forEach(function (d) {
+                            states.push(d['state_full']);
+                            state_dict[d['state_full']] = d
+                        });
                     }
-                    filtered.forEach(function (d) {
-                        states.push(d['state_full']);
-                        state_dict[d['state_full']] = d
-                    });
-
-                    var colorScale = drawlegendColor(loanMaxNew);
-                    drawXScale(loanMaxNew);
-
                     function update_state(d) {
                         if (states.indexOf(d.properties.name) !== -1) {
                             return colorScale(state_dict[d.properties.name].LoanAmount);
@@ -265,7 +245,7 @@
                     }
 
                     svg.selectAll('path.usa-map').transition()
-                            .duration(500)
+                                                  .duration(500)
                             .style('fill', update_state);
                 };
                 drawGeoUpdateFunc(target_quater);
@@ -285,9 +265,9 @@
             var svg = drawContainer("#chart-trend");
 
             chartTrend = new dimple.chart(svg, data);
-            chartTrend.setMargins("60px", "30px", margin_default + "px", "70px");
+            chartTrend.setMargins("60px", "30px", margin_default+"px", "70px");
             var x = chartTrend.addCategoryAxis("x", "Loan Date Quarter");
-            var quarterDomain = ['2005-Q3', '2005-Q4', '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4', '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4', '2008-Q1', '2008-Q2', '2008-Q3', '2008-Q4', '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4', '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4', '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4', '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4', '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4'];
+            var quarterDomain = ['2005-Q3', '2005-Q4', '2006-Q1', '2006-Q2', '2006-Q3', '2006-Q4', '2007-Q1', '2007-Q2', '2007-Q3', '2007-Q4', '2008-Q1', '2008-Q2', '2008-Q3', '2009-Q1', '2009-Q2', '2009-Q3', '2009-Q4', '2010-Q1', '2010-Q2', '2010-Q3', '2010-Q4', '2011-Q1', '2011-Q2', '2011-Q3', '2011-Q4', '2012-Q1', '2012-Q2', '2012-Q3', '2012-Q4', '2013-Q1', '2013-Q2', '2013-Q3', '2013-Q4'];
             x.addOrderRule(quarterDomain);
             chartTrend.addMeasureAxis("y", "LoanAmount");
 
@@ -299,27 +279,25 @@
             chartTrend.draw();
 
             svg.append("text")
-                    .attr("x", (height + margin_default / 2))
-                    .attr("y", (margin_default / 2) - 5)
-                    .attr("text-anchor", "middle")
-                    .style("font-size", "14px")
-                    //.style("text-decoration", "underline")
-                    .text("Loan amount by Quarter");
+                .attr("x", (height + margin_default / 2))
+                .attr("y", (margin_default / 2)-5)
+                .attr("text-anchor", "middle")
+                .style("font-size", "14px")
+                //.style("text-decoration", "underline")
+                .text("Loan amount by Quarter");
 
             function getFilterData(quarter) {
-                var maxIndex = quarterDomain.indexOf(quarter);
+                var maxIndex = quarterDomain.indexOf(quarter) ;
                 var filteredData = data.filter(function (d) {
                     var dataQuarter = d['Loan Date Quarter'];
                     var dataQuarterIndex = quarterDomain.indexOf(dataQuarter);
-                    return maxIndex - dataQuarterIndex >= 0;
+                    return  maxIndex-dataQuarterIndex <= 0;
                 });
                 return filteredData;
             }
-
             drawTrendUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
-                chartTrend.data = filterData;
-                chartTrend.draw()
+                chartTrend.data= filterData;
 
             }
         }
@@ -375,7 +353,7 @@
             var sub_width = width - margin_default;
             var sub_height = height - margin_default;
             var chartSize = {width: sub_width, height: sub_height};
-            var updateDataList = getFilterData(target_quater);
+            var updateDataList =getFilterData(target_quater);
             var chart = d3.box()
                     .whiskerValue(function (d) {
                         return [d.BorrowerRate_max, d.BorrowerRate_min];
@@ -387,20 +365,20 @@
                     .height(chartSize.height)
                     .domain(boundArr)
                     .showLabels(true);
-            var label = {title: "Borrower Rate V Credit Grade", x: "Credit Grade", y: "Borrower Rate"};
-            chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize, label);
+            var label = {title : "Borrower Rate V Credit Grade",x:"Credit Grade", y:"Borrower Rate"};
+            chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize,label);
             drawCgVsBrUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
-                var updateFilterData = function (d, i) {
+                var updateFilterData = function (d,i) {
 //                    debugger;
                     debugger;
-                    console.log("updateFilterData : " + i)
+                    console.log("updateFilterData : "+i)
                     return filterData[i];
                 };
                 var updateDataList = filterData;
                 chart.updateDataList(updateDataList);
 //                svg.data(filterData).call(chart.duration(100));
-                chart.myGroupBox.call(chart.duration(900));
+                chart.myGroupBox.call(chart.duration(500));
 
             }
         }
@@ -457,7 +435,7 @@
             var sub_width = width - margin_default;
             var sub_height = height - margin_default;
             var chartSize = {width: sub_width, height: sub_height};
-            var updateDataList = getFilterData(target_quater);
+            var updateDataList =getFilterData(target_quater);
             var chart = d3.box()
                     .whiskerValue(function (d) {
                         return [d.BorrowerRate_max, d.BorrowerRate_min];
@@ -469,12 +447,12 @@
                     .height(chartSize.height)
                     .domain(boundArr)
                     .showLabels(true);
-            var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"}
-            chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize, label);
+            var label = {title : "Borrower Rate V Prosper Rating",x:"Prosper Rating", y:"Borrower Rate"}
+            chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize,label);
             drawCgVsPrUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
-                var updateFilterData = function (d, i) {
-                    console.log("updateFilterData : " + i)
+                var updateFilterData = function (d,i) {
+                    console.log("updateFilterData : "+i)
                     return filterData[i];
                 };
                 var updateDataList = filterData;
@@ -504,63 +482,60 @@
     </script>
     <script>
         var quarter_idx = 0;
-        var max_qidx = quarters.length;
-        var min_qidx = 0;
-        var updateQuarterDisplay = function(quarterValue){
-            d3.select("#quarter-display").text(quarterValue);
-        };
         function update(quarterValue) {
-            drawGeoUpdateFunc(quarterValue);
+                drawGeoUpdateFunc(quarterValue);
             drawCgVsBrUpdateFunc(quarterValue);
             drawCgVsPrUpdateFunc(quarterValue);
             drawTrendUpdateFunc(quarterValue);
-            updateQuarterDisplay(quarterValue);
         }
-//        d3.select(".navigator-tools").style("display:none");
         var quarterInterval = setInterval(function () {
-            if (drawGeoUpdateFunc == null || drawCgVsBrUpdateFunc == null || drawCgVsBrUpdateFunc == null) {
+            console.log(drawCgVsPrUpdateFunc);
+            if(drawGeoUpdateFunc ==null || drawCgVsBrUpdateFunc== null || drawCgVsBrUpdateFunc==null){
                 return;
             }
             update(quarters[quarter_idx]);
 
             quarter_idx++;
-            var shouldChange = function (newQIDX) {
-              if(newQIDX > max_qidx || newQIDX < min_qidx){
-                  return false;
-              }
-                return true;
-            };
+
             if (quarter_idx >= quarters.length) {
                 clearInterval(quarterInterval);
+                return;
+                var buttons = d3.select("#quarter-navigator")
+                        .selectAll("li")
+                        .data(quarters)
+                        .enter()
+                        .append("li")
+                        .attr("class", "nav-item")
+                        .append("a")
+                        .attr("class", "nav-nav-link")
+                        .text(function (d) {
+                            return d;
+                        });
+                buttons.on("click", function (d) {
+                    d3.select("#quarter-navigator")
+                            .selectAll("li")
+                            .attr("class", "nav-item")
 
-                var buttons = d3.select("#navigator-minus").on("click", function (d) {
-                    var newQIDX = quarter_idx - 1;
-                    if(shouldChange(newQIDX)){
-                        quarter_idx = newQIDX;
-                        update(quarters[quarter_idx]);
-                    }
+                    d3.select(this.parentNode)
+                            .transition()
+                            .duration(500)
+                            .attr("class", "nav-item active");
 
+                    update(d);
                 });
-                var buttons = d3.select("#navigator-plus").on("click", function (d) {
-                    var newQIDX = quarter_idx + 1;
-                    if(shouldChange(newQIDX)){
-                        quarter_idx = newQIDX;
-                        update(quarters[quarter_idx]);
-                    }
-
-                });
-                d3.select(".navigator-tools").style("opacity", 1);
             }
         }, 750);
     </script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-brand"> Data Visualization Loan in USA from 2005 to 2013 :
+    <div class="navbar-brand"> Data Visualization Loan in USA from 2009 to 2013 :</div>
+    <div class="navbar-brand"></div>
+    <div class="nav">
+        <div class="nav-item nav-link"></div>
     </div>
-    <div class="navbar-brand navigator-tools" id="navigator-minus"> << </div>
-    <div class="navbar-brand" id="quarter-display"> 2005 </div>
-    <div class="navbar-brand navigator-tools" id="navigator-plus"> >> </div>
+    <ul class="nav navbar-nav" id="quarter-navigator">
+    </ul>
 </nav>
 <div style="padding-top: 60px"></div>
 <section id="chart-view">

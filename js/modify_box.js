@@ -19,7 +19,6 @@
 
         // For each small multiple…
         function box(g) {
-            console.log("box(g) ======================");
             // debugger;
             g.each(function (data, i) {
                 var d = updateDataList[i][1];
@@ -307,7 +306,7 @@
             // add a title
             svg.append("text")
                 .attr("x", (chartSize.width / 2))
-                .attr("y", (margin.top / 2))
+                .attr("y", (margin.top / 2)-5)
                 .attr("text-anchor", "middle")
                 .style("font-size", "14px")
                 //.style("text-decoration", "underline")
@@ -345,9 +344,10 @@
                 .call(yAxis)
                 .append("text") // and text1
                 .attr("transform", "rotate(-90)")
-                .attr("y", 6)
+                .attr("x", (-(chartSize.height + margin.top + margin.bottom)/2))
+                .attr("y", -margin.left+10)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
+                .style("text-anchor", "middle")
                 .style("font-size", "10px")
                 .text(label.y);
             return box;
