@@ -31,12 +31,13 @@ because it is suite with differentiate data between category and can also show t
 ### Step
 
 #### Draft a story
+
 After I got the data I try to mark down what is the interesting story behide this 
 and I found out that the most interesting variables are 
 amount of loan and yield; I try to draft the visualization by using tableau public and found the co-related interesting variables such as
 Loan Original Date, Brrower Rating , Credit Grade, Prosper Rating and Borrower State.
 
-draft file : draft.pdf ()
+draft file : draft.pdf (http://static.augimon.com/EDV-Laon/draft.pdf)
 
 #### Processing Data
 
