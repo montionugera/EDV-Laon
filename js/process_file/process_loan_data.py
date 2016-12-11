@@ -50,16 +50,16 @@ def custom_process_file(origin_file_path):
     file_path = os.path.join(data_path, sumloan_by_map)
     agg.to_csv(file_path, sep=',', index=False)
     def buildBoxPlotData(df,groupKey):
-        agg_025 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.025)
-        agg_975 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.975)
+        agg_25 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.25)
+        agg_75 = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).quantile(.75)
         agg_min = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).min()
         agg_max = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).max()
         agg_med = df.groupby(by=['Loan Date Quarter', groupKey], as_index=True).median()
 
         agg = agg_med[['BorrowerRate']]
         agg['BorrowerRate_median'] = agg_med[['BorrowerRate']]['BorrowerRate']
-        agg['BorrowerRate_025'] = agg_025[['BorrowerRate']]['BorrowerRate']
-        agg['BorrowerRate_975'] = agg_975[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_25'] = agg_25[['BorrowerRate']]['BorrowerRate']
+        agg['BorrowerRate_75'] = agg_75[['BorrowerRate']]['BorrowerRate']
         agg['BorrowerRate_min'] = agg_min[['BorrowerRate']]['BorrowerRate']
         agg['BorrowerRate_max'] = agg_max[['BorrowerRate']]['BorrowerRate']
         return agg

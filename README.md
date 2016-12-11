@@ -56,13 +56,15 @@ be used to create the visualization by create python script using numpy and pand
 
 For US map view, it should have the state name and amount of loan when hover pointer on each state area.
 
-For... graph, it should have highlight number of borrower rate for each credit grade/ prosper rating.For example, grade A have borrowing rate as follow.
-
-0.08: maximum 0.06 :q95 0.07: medium  0.06:q05 0.05 :minimum
+For boxplot graph, it should have highlight number of borrower rate for each credit grade/ prosper rating.
+For example, grade A have borrowing rate as follow.
+0.08: maximum 0.06 :q1 0.07: mediam  0.06:q3 0.05 :minimum
 
 #### By Mr. Vetsutee
 
-I was confused about what this data visualization want to introduce. The creator should include some brief to get audience understand his core concept. Lack of understanding greatly effects how audiences interpret each graph.
+I was confused about what this data visualization want to introduce. 
+The creator should include some brief to get audience understand his core concept. 
+Lack of understanding greatly effects how audiences interpret each graph.
  
 - While website loading data by each Q, the graph also keeps moving, make it confusing of what happens. Did creator want to make a point or just loading.
 
@@ -71,4 +73,51 @@ I was confused about what this data visualization want to introduce. The creator
 - I likes geography graph map. Easy to see different between each state. After saw different in color, I want to see their numbers too. Mouse hover to see exact number should improve this graph.
 
 - Both right graphs were too hard for me to get any message.
+
+#### By Mr. Chatuporn
+
+
+1. When the page first loaded, it should display a graph with the final data (2013-Q4). It should not
+to start animation from the first data to the final data. It will take a long time to wait.
+
+2. The display should be divided as follows:
+
+a. Added the option to view each Quarter by selecting the drop-down (into the upper right
+corner of the page).
+
+b. Segment graph in the display below (1) a graph showing data from 2005-Q3 data
+Quarter to the Quarter is selected and (2) a graph showing the data specific Quarter.
+
+3. Add definition of Credit Grade (AA, A, B, C, D, E, HR and NC) and Prosper Rating (AA, A, B, C, D, E,
+HR and N / A) may be displayed in a small square on the graph (label description).
+
+4. The map graph, it should show the state name and amount of loan when hover on each state.
+
+5. The scale rate (colors) of the map graph should be fixed in every Quarter
+
+#### Summary 
+
+##### What I think it should be improved or be fixed :
+
+-Graph title, to make user can clearly understand what it is and what duration that each graph include the data.
+
+-US map view should improve by add tooltip when the user hover mouse on it.
+
+-Drop down for quick navigate though quater.
+
+-Graph unit definitions.
+
+##### What I think it should not be improved or be fixed :
+
+1.When the page first loaded, it should display a graph with the final data (2013-Q4). It should not
+to start animation from the first data to the final data. It will take a long time to wait.. 
+
+I think it has already make sense to tell the story from the beginning of the data.
+
+2. The scale rate (colors) of the map graph should be fixed in every Quarter.
+
+I think this can make user can not distinguish visualization
+in case it has very low loan amount in some years.
+
+
 
