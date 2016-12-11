@@ -136,6 +136,13 @@
         #navigator-plus {
             color: lightblue;
         }
+        #navigator-minus2 {
+            color: lightblue;
+        }
+
+        #navigator-plus2 {
+            color: lightblue;
+        }
     </style>
     <script type="text/javascript">
 
@@ -183,8 +190,8 @@
                                 .duration(200)
                                 .style("opacity", .9);
                         console.log(d);
-                        div.html( "State :"+d.properties.name + "<br/>" +
-                                "Loan amount :" + d.properties.LoanAmount)
+                        div.html( "State : "+d.properties.name + "<br/>" +
+                                "Loan amount : " + d.properties.LoanAmount +" $")
                                 .style("left", (d3.event.pageX) + "px")
                                 .style("top", (d3.event.pageY - 28) + "px");
                     })
