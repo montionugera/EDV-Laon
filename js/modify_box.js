@@ -16,6 +16,7 @@
             updateDataList = null;
         var label = null;
         var scaleX = null;
+        var chartTitle = null;
 
         // For each small multiple…
         function box(g) {
@@ -304,13 +305,14 @@
             this.drawBox(svg, data, margin);
 
             // add a title
-            svg.append("text")
+             var chartTitle = svg.append("text")
                 .attr("x", (chartSize.width / 2))
                 .attr("y", (margin.top / 2)-5)
                 .attr("text-anchor", "middle")
                 .style("font-size", "14px")
                 //.style("text-decoration", "underline")
                 .text(label.title);
+            this.chartTitle(chartTitle);
 
 
             this.drawYAxis(svg, margin, dataValueBound, chartSize, label);
@@ -404,6 +406,12 @@
             label = x;
             return box;
         };
+        box.chartTitle = function (x) {
+            if (!arguments.length) return chartTitle;
+            chartTitle = x;
+            return box;
+        };
+
 
         box.duration = function (x) {
             if (!arguments.length) return duration;

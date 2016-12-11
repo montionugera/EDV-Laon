@@ -123,7 +123,7 @@
     <script type="text/javascript">
 
         var chartTrend, chartGeo;
-        var width = 600, height = 300;
+        var width = 600, height = 340;
         var margin_default = 60;
         function drawContainer(chart_id) {
             var svg = d3.select(chart_id)
@@ -221,12 +221,13 @@
                         .style("fill", "url(#legend-loanmap)");
 
                 //Append title
-                legendsvg.append("text")
+
+                var chartTitle = legendsvg.append("text")
                         .attr("class", "legendTitle")
                         .attr("x", 0)
                         .attr("y", -height + margin_default - 5)
                         .style("text-anchor", "middle")
-                        .text("Loan Amount in USD vs State");
+                        .text("Loan Amount in USD vs State in quarter : "+target_quater);
 
                 var axis = legendsvg.append("g")
                         .attr("class", "axis")
@@ -283,6 +284,7 @@
                             return "#FFFFDD";
                         }
                     }
+                    chartTitle.text("Loan Amount in USD vs State in quarter : "+theQuarter);
 
                     svg.selectAll('path.usa-map').transition()
                             .duration(500)
@@ -318,13 +320,13 @@
 //            debugger;
             chartTrend.draw();
 
-            svg.append("text")
+            var chartTitle = svg.append("text")
                     .attr("x", (height + margin_default / 2))
                     .attr("y", (margin_default / 2) - 5)
                     .attr("text-anchor", "middle")
                     .style("font-size", "14px")
                     //.style("text-decoration", "underline")
-                    .text("Loan amount by Quarter");
+                    .text("Loan amount by Quarter from 2005-Q3 to "+target_quater );
 
             function getFilterData(quarter) {
                 var maxIndex = quarterDomain.indexOf(quarter);
@@ -339,7 +341,8 @@
             drawTrendUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
                 chartTrend.data = filterData;
-                chartTrend.draw()
+                chartTrend.draw();
+                chartTitle.text("Loan amount by Quarter from 2005-Q3 to "+target_quater );
 
             }
         }
@@ -411,16 +414,9 @@
             chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsBrUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
-                var updateFilterData = function (d, i) {
-//                    debugger;
-                    debugger;
-                    console.log("updateFilterData : " + i)
-                    return filterData[i];
-                };
-                var updateDataList = filterData;
-                chart.updateDataList(updateDataList);
-//                svg.data(filterData).call(chart.duration(100));
+                chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(900));
+                chart.chartTitle().text("Borrower Rate V Credit Grade in quarter :" + target_quater);
 
             }
         }
@@ -488,17 +484,13 @@
                     .height(chartSize.height)
                     .domain(boundArr)
                     .showLabels(true);
-            var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"}
+            var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"};
             chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsPrUpdateFunc = function (target_quater) {
                 var filterData = getFilterData(target_quater);
-                var updateFilterData = function (d, i) {
-                    console.log("updateFilterData : " + i)
-                    return filterData[i];
-                };
-                var updateDataList = filterData;
-                chart.updateDataList(updateDataList);
+                chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(500));
+                chart.chartTitle().text("Borrower Rate V Prosper Rating in quarter :" + target_quater);
 
             }
         }
@@ -600,7 +592,7 @@
     <source src="sfx/switch7.wav" type="audio/wav">
 </audio>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-brand"> Data Visualization Loan in USA from 2005-Q3 to
+    <div class="navbar-brand"> Data Visualization Loan in USA
     </div>
     <div style="color: lightskyblue">
         <div class="navbar-brand navigator-tools" id="navigator-minus" style="display: none"> <<</div>
