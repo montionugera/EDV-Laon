@@ -571,11 +571,22 @@
             } else {
                 d3.select("#navigator-minus").attr("style", "display: none");
             }
+            if (shouldChange(quarter_idx - 4)) {
+                d3.select("#navigator-minus2").attr("style", "display: block");
+            } else {
+                d3.select("#navigator-minus2").attr("style", "display: none");
+            }
             if (shouldChange(quarter_idx + 1)) {
                 d3.select("#navigator-plus").attr("style", "display: block");
             } else {
                 d3.select("#navigator-plus").attr("style", "display: none");
             }
+            if (shouldChange(quarter_idx + 4)) {
+                d3.select("#navigator-plus2").attr("style", "display: block");
+            } else {
+                d3.select("#navigator-plus2").attr("style", "display: none");
+            }
+                d3.select("#navigator-guide").attr("style", "display: block");
         };
         var shouldChange = function (newQIDX) {
             if (newQIDX > max_qidx || newQIDX < min_qidx) {
@@ -625,10 +636,26 @@
                     }
 
                 });
+                var buttons = d3.select("#navigator-minus2").on("click", function (d) {
+                    var newQIDX = quarter_idx - 4;
+                    if (shouldChange(newQIDX)) {
+                        quarter_idx = newQIDX;
+                        update(quarters[quarter_idx]);
+                    }
+
+                });
+                var buttons = d3.select("#navigator-plus2").on("click", function (d) {
+                    var newQIDX = quarter_idx + 4;
+                    if (shouldChange(newQIDX)) {
+                        quarter_idx = newQIDX;
+                        update(quarters[quarter_idx]);
+                    }
+
+                });
                 d3.select(".navigator-tools").style("opacity", 1);
                 updateQuarterNavigateTools(quarters[quarter_idx])
             }
-        }, 750);
+        }, 100);
     </script>
 </head>
 <body>
@@ -639,9 +666,12 @@
     <div class="navbar-brand"> Data Visualization Loan in USA
     </div>
     <div style="color: lightskyblue">
-        <div class="navbar-brand navigator-tools" id="navigator-minus" style="display: none"> <<</div>
+        <div class="navbar-brand navigator-tools" id="navigator-minus2" style="display: none"> <<</div>
+        <div class="navbar-brand navigator-tools" id="navigator-minus" style="display: none"> <</div>
         <div class="navbar-brand" id="quarter-display"> 2005-Q3</div>
-        <div class="navbar-brand navigator-tools" id="navigator-plus" style="display: none"> >></div>
+        <div class="navbar-brand navigator-tools" id="navigator-plus" style="display: none"> ></div>
+        <div class="navbar-brand navigator-tools" id="navigator-plus2" style="display: none"> >></div>
+        <div class="navbar-brand " id="navigator-guide" style="display: none"> Click "<< < > >>" To navigate quarter</div>
     </div>
 </nav>
 <div style="padding-top: 60px"></div>
@@ -649,6 +679,7 @@
     <div id="chart-trend" class="col-md-6"></div>
     <div id="chart-cg-br" class="col-md-6"></div>
 </section>
+<div style="padding-top: 60px"></div>
 <section id="chart-view-2">
     <div id="chart-geo" class="col-md-6"></div>
     <div id="chart-pr-br" class="col-md-6"></div>

@@ -103,9 +103,7 @@ HR and N / A) may be displayed in a small square on the graph (label description
 
 -US map view should improve by add tooltip when the user hover mouse on it.
 
--Drop down for quick navigate though quater.
-
--Graph unit definitions.
+-Add more option for quicker navigate though quater.
 
 ##### What I think it should not be improved or be fixed :
 
