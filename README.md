@@ -52,3 +52,23 @@ be used to create the visualization by create python script using numpy and pand
 
 ### Reviews
 
+#### By Mr. Chat
+
+For US map view, it should have the state name and amount of loan when hover pointer on each state area.
+
+For... graph, it should have highlight number of borrower rate for each credit grade/ prosper rating.For example, grade A have borrowing rate as follow.
+
+0.08: maximum 0.06 :q95 0.07: medium  0.06:q05 0.05 :minimum
+
+#### By Mr. Vetsutee
+
+I was confused about what this data visualization want to introduce. The creator should include some brief to get audience understand his core concept. Lack of understanding greatly effects how audiences interpret each graph.
+ 
+- While website loading data by each Q, the graph also keeps moving, make it confusing of what happens. Did creator want to make a point or just loading.
+
+- Top left graph was easy to digest, loan amout by Q. However, I still don't get what creator want to say.
+ 
+- I likes geography graph map. Easy to see different between each state. After saw different in color, I want to see their numbers too. Mouse hover to see exact number should improve this graph.
+
+- Both right graphs were too hard for me to get any message.
+
