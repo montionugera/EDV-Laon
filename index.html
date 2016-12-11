@@ -103,6 +103,20 @@
         var target_quater = '2009-Q1';
     </script>
     <style>
+
+        div.tooltip {
+            position: absolute;
+            text-align: left;
+            width: 190px;
+            height: 32px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
         circle.dimple-series-1 {
             fill: red;
         }
@@ -110,14 +124,17 @@
         h2 {
             text-align: center;
         }
+
         #quarter-display {
-            color:white;
+            color: white;
         }
+
         #navigator-minus {
-            color:lightblue;
+            color: lightblue;
         }
+
         #navigator-plus {
-            color:lightblue;
+            color: lightblue;
         }
     </style>
     <script type="text/javascript">
@@ -132,6 +149,7 @@
                     .attr("height", height + margin_default)
             return svg;
         }
+
     </script>
     <script type="text/javascript">
 
@@ -145,6 +163,12 @@
                     .scale(width + margin_default)
                     .translate([width / 2, height / 2]);
             var path = d3.geo.path().projection(projection);
+
+
+            // Define the div for the tooltip
+            var div = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
             var map = svg.selectAll('path')
                     .data(geo_data.features)
                     .enter()
@@ -153,7 +177,22 @@
                     .attr('d', path)
                     .style('fill', 'lightBlue')
                     .style('stroke', 'black')
-                    .style('stroke-width', 0.5);
+                    .style('stroke-width', 0.5)
+                    .on("mouseover", function (d) {
+                        div.transition()
+                                .duration(200)
+                                .style("opacity", .9);
+                        console.log(d);
+                        div.html( "State :"+d.properties.name + "<br/>" +
+                                "Loan amount :" + d.properties.LoanAmount)
+                                .style("left", (d3.event.pageX) + "px")
+                                .style("top", (d3.event.pageY - 28) + "px");
+                    })
+                    .on("mouseout", function (d) {
+                        div.transition()
+                                .duration(500)
+                                .style("opacity", 0);
+                    });
 
 
             function draw_geo_plot_data(data) {
@@ -227,7 +266,7 @@
                         .attr("x", 0)
                         .attr("y", -height + margin_default - 5)
                         .style("text-anchor", "middle")
-                        .text("Loan Amount in USD vs State in quarter : "+target_quater);
+                        .text("Loan Amount in USD vs State in quarter : " + target_quater);
 
                 var axis = legendsvg.append("g")
                         .attr("class", "axis")
@@ -279,12 +318,15 @@
 
                     function update_state(d) {
                         if (states.indexOf(d.properties.name) !== -1) {
+                            d.properties.LoanAmount = state_dict[d.properties.name].LoanAmount;
                             return colorScale(state_dict[d.properties.name].LoanAmount);
                         } else {
+                            d.properties.LoanAmount = 0;
                             return "#FFFFDD";
                         }
                     }
-                    chartTitle.text("Loan Amount in USD vs State in quarter : "+theQuarter);
+
+                    chartTitle.text("Loan Amount in USD vs State in quarter : " + theQuarter);
 
                     svg.selectAll('path.usa-map').transition()
                             .duration(500)
@@ -326,7 +368,7 @@
                     .attr("text-anchor", "middle")
                     .style("font-size", "14px")
                     //.style("text-decoration", "underline")
-                    .text("Loan amount by Quarter from 2005-Q3 to "+target_quater );
+                    .text("Loan amount by Quarter from 2005-Q3 to " + target_quater);
 
             function getFilterData(quarter) {
                 var maxIndex = quarterDomain.indexOf(quarter);
@@ -342,7 +384,7 @@
                 var filterData = getFilterData(target_quater);
                 chartTrend.data = filterData;
                 chartTrend.draw();
-                chartTitle.text("Loan amount by Quarter from 2005-Q3 to "+target_quater );
+                chartTitle.text("Loan amount by Quarter from 2005-Q3 to " + target_quater);
 
             }
         }
