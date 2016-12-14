@@ -66,11 +66,13 @@ I was confused about what this data visualization want to introduce.
 The creator should include some brief to get audience understand his core concept. 
 Lack of understanding greatly effects how audiences interpret each graph.
  
-- While website loading data by each Q, the graph also keeps moving, make it confusing of what happens. Did creator want to make a point or just loading.
+- While website loading data by each Q, the graph also keeps moving, make it confusing of what happens. 
+Did creator want to make a point or just loading.
 
 - Top left graph was easy to digest, loan amout by Q. However, I still don't get what creator want to say.
  
-- I likes geography graph map. Easy to see different between each state. After saw different in color, I want to see their numbers too. Mouse hover to see exact number should improve this graph.
+- I likes geography graph map. Easy to see different between each state. After saw different in color,
+ I want to see their numbers too. Mouse hover to see exact number should improve this graph.
 
 - Both right graphs were too hard for me to get any message.
 
@@ -95,11 +97,12 @@ HR and N / A) may be displayed in a small square on the graph (label description
 
 5. The scale rate (colors) of the map graph should be fixed in every Quarter
 
-#### Summary 
+#### Review Summary 
 
 ##### What I think it should be improved or be fixed :
 
--Graph title, to make user can clearly understand what it is and what duration that each graph include the data.
+-Graph title, to make user can clearly understand what it is and what duration that each graph include 
+the data.
 
 -US map view should improve by add tooltip when the user hover mouse on it.
 
@@ -117,5 +120,18 @@ I think it has already make sense to tell the story from the beginning of the da
 I think this can make user can not distinguish visualization
 in case it has very low loan amount in some years.
 
+### Data Visualization Summary 
+1. There is a huge loan amount decrease which starts at 2008-Q3 from 20m to 3m and become 0 at 
+2008-Q4 to 2009-Q1,it is the same time of Subprime mortgage crisis ;  After that it take 2 year to reach the same 
+loan amount in 2011-Q2 and create new high in 2011-Q4 and start decrease at 2012-Q3 (On 6 September 2012, 
+the ECB calmed financial markets by announcing free unlimited support for all eurozone countries ); 
+After that 2 quarter the loan amount make new high and keep increasing till 2013-Q2.
 
+2. California and Texas states have big loan amount through all period; From 2009-Q2 to 2012-Q1
+New York's loan amount is larger than Texas's in some quarters.
+
+3. There is no data for Credit Grade since 2009-Q2 but there is Prosper Rating instead since there.
+
+4. Credit grade and Prosper rating has relation with borrower rate but Prosper rating can give you more precisely
+borrower rate (size of area in Borrower Rate V Prosper Rating 's boxplot much less than Borrower Rate V Credit Grade).
 
