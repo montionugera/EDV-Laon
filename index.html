@@ -468,6 +468,18 @@
             var label = {title: "Borrower Rate V Credit Grade", x: "Credit Grade", y: "Borrower Rate"};
             chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsBrUpdateFunc = function (target_quater) {
+
+                if(quarters.indexOf(target_quater) >= quarters.indexOf('2009-Q2')){
+
+                    svg.transition()
+                        .duration(200)
+                        .style("opacity", .001);
+                }else{
+                    svg.transition()
+                        .duration(200)
+                        .style("opacity", .99);
+
+                }
                 var filterData = getFilterData(target_quater);
                 chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(900));
@@ -544,6 +556,17 @@
             var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"};
             chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsPrUpdateFunc = function (target_quater) {
+                if(quarters.indexOf(target_quater) < quarters.indexOf('2009-Q2')){
+
+                    svg.transition()
+                        .duration(200)
+                        .style("opacity", .001);
+                }else{
+                    svg.transition()
+                        .duration(200)
+                        .style("opacity", .99);
+
+                }
                 var filterData = getFilterData(target_quater);
                 chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(500));
