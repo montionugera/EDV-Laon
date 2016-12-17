@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <script src="js/d3.v3.min.js"></script>
-    <script src="js/dimple.v2.0.0.min.js"></script>
+    <!--<script src="js/dimple.v2.0.0.min.js"></script>-->
+    <script src="js/dimple.v2.1.6.js"></script>
     <script src="js/modify_box.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -374,6 +375,32 @@
 
             var s2 = chartTrend.addSeries(null, dimple.plot.scatter);
             chartTrend.draw();
+            var event_dict = {
+                '2008-Q3': 'Subprime mortgage crisis',
+                '2012-Q3': 'On 6 September 2012,the ECB calmed financial markets by ' +
+                'announcing free unlimited support for all eurozone countries'
+            };
+
+            svg.selectAll('circle').each(function (d) {
+                if (event_dict[d.x] != undefined) {
+                    var cicle = d3.select(this);
+                    cicle.style("fill", "red");
+                }
+            });
+
+            s2.getTooltipText = function (e) {
+                if (event_dict[e.x] != undefined) {
+                    return [
+                        "Quater : " + e.x,
+                        "Loan amount : " + e.y,
+                        "Event : " + event_dict[e.x]
+                    ];
+                }
+                return [
+                    "Quater : " + e.x,
+                    "Loan amount : " + e.y
+                ];
+            };
 
             var chartTitle = svg.append("text")
                 .attr("x", (width / 2) + margin_default / 2)
@@ -393,9 +420,33 @@
             }
 
             drawTrendUpdateFunc = function (target_quater) {
-                var filterData = getFilterData(target_quater);
-                chartTrend.data = filterData;
-                chartTrend.draw(500);
+                svg.selectAll('circle').each(function (d) {
+                    if(d == undefined){
+                        return;
+                    }
+                    var circle = d3.select(this);
+                    if (d.x == target_quater) {
+                        dimple._showBarTooltip(d, this, chartTrend, s2);
+                        circle.transition()
+                            .duration(200)
+                            .attr("r", 10)
+                            .transition()
+                            .delay(750)
+                            .duration(200)
+                            .attr("r", 5);
+                    }
+                });
+
+                svg.selectAll('rect').each(function (d) {
+                    if(d == undefined){
+                        return;
+                    }
+                    var rect = d3.select(this);
+                    if (d.x == target_quater) {
+                        dimple._showBarTooltip(d, this, chartTrend, s1);
+                    }
+                });
+
 
             }
         }
@@ -469,12 +520,13 @@
             chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsBrUpdateFunc = function (target_quater) {
 
-                if(quarters.indexOf(target_quater) >= quarters.indexOf('2009-Q2')){
+                if (quarters.indexOf(target_quater) >= quarters.indexOf('2009-Q2') ||
+                    '2008-Q4' == target_quater) {
 
                     svg.transition()
                         .duration(200)
                         .style("opacity", .001);
-                }else{
+                } else {
                     svg.transition()
                         .duration(200)
                         .style("opacity", .99);
@@ -556,12 +608,14 @@
             var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"};
             chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsPrUpdateFunc = function (target_quater) {
-                if(quarters.indexOf(target_quater) < quarters.indexOf('2009-Q2')){
+                if (quarters.indexOf(target_quater) < quarters.indexOf('2009-Q2') ||
+                    '2008-Q4' == target_quater
+                ) {
 
                     svg.transition()
                         .duration(200)
                         .style("opacity", .001);
-                }else{
+                } else {
                     svg.transition()
                         .duration(200)
                         .style("opacity", .99);
@@ -638,7 +692,8 @@
             ion.sound.play("snap");
         }
         var quarterInterval = setInterval(function () {
-            if (drawTrendUpdateFunc == null || drawGeoUpdateFunc == null || drawCgVsBrUpdateFunc == null || drawCgVsBrUpdateFunc == null) {
+            if (drawTrendUpdateFunc == null || drawGeoUpdateFunc == null || drawCgVsBrUpdateFunc == null ||
+                drawCgVsBrUpdateFunc == null) {
                 return;
             }
             update(quarters[quarter_idx]);
