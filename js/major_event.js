@@ -914,12 +914,12 @@ function getMajorEvents() {
         },
 
         {
-            event_name: "** Prosper has provided an increasing amount of information about " +
-            "prospective borrowers over time, while also making various changes to its credit policy. " +
-            "Prior to its 2008 'quiet period' and 2009 SEC registration, the company provided \"Credit Grades\" and " +
-            "other credit information about its prospective lenders. Following the SEC registration, the company created a new model that determined " +
-            "\"Prosper Ratings\" instead. Additionally, new prospective borrowers were required to have an FICO 8 credit score of at least 640, " +
-            "while returning borrowers only need a score of 600 to request a loan."
+            event_name: "** Since its SEC registration in 2009, " +
+            "Prosper has provided a proprietary \"Prosper Rating\" for prospective borrowers based on " +
+            "the company's estimation of that borrower's \"estimated loss rate.\" According to the company, that figure is" +
+            " \"determined by two scores: (1) the credit score, obtained from an official credit reporting agency, " +
+            "and (2) the Prosper Score, figured in-house based on the Prosper population.\" Prosper Ratings, " +
+            "from lowest-risk to highest-risk, are labeled AA, A, B, C, D, E, and HR (\"High Risk\"). (wikipedia)"
             , date: "04-01-2009", quarter: "2009-Q2"
         },
 
