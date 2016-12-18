@@ -21,10 +21,11 @@ The project decide to use :
 
 #### Bar chart and Line Chart
 
-Because it can make the audience easily compare the value between the domain (x-axis) and see the trend of data.
+Because it can make the audience easily compare the value between the domain (x-axis) and quickly understand the trend of data.
 
 #### Geomap
-Because it can make the audience quickly explore the interest location/state and highest/lowest value.
+Because it can make the audience quickly explore the interest location/state with highest/lowest value and understand the data in 
+term of geometry (high/low value zone).
 
 #### Boxplot
 Because it can make the audience quickly compare the value between the categories and see how the data shape 

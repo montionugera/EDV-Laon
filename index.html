@@ -577,7 +577,7 @@
                 .height(chartSize.height)
                 .domain(boundArr)
                 .showLabels(true);
-            var label = {title: "Borrower Rate V Credit Grade", x: "Credit Grade", y: "Borrower Rate"};
+            var label = {title: "Borrower Rate Vs Credit Grade", x: "Credit Grade", y: "Borrower Rate"};
             chart.drawChart(svg, margin, credigradeDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsBrUpdateFunc = function (target_quater) {
 
@@ -596,7 +596,7 @@
                 var filterData = getFilterData(target_quater);
                 chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(900));
-                chart.chartTitle().text("Borrower Rate V Credit Grade in quarter :" + target_quater);
+                chart.chartTitle().text("Borrower Rate Vs Credit Grade in quarter :" + target_quater);
 
             }
         }
@@ -664,7 +664,7 @@
                 .height(chartSize.height)
                 .domain(boundArr)
                 .showLabels(true);
-            var label = {title: "Borrower Rate V Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"};
+            var label = {title: "Borrower Rate Vs Prosper Rating", x: "Prosper Rating", y: "Borrower Rate"};
             chart.drawChart(svg, margin, prosperRatingDomain, updateDataList, boundArr, chartSize, label);
             drawCgVsPrUpdateFunc = function (target_quater) {
                 if (quarters.indexOf(target_quater) < quarters.indexOf('2009-Q2') ||
@@ -683,7 +683,7 @@
                 var filterData = getFilterData(target_quater);
                 chart.updateDataList(filterData);
                 chart.myGroupBox.call(chart.duration(500));
-                chart.chartTitle().text("Borrower Rate V Prosper Rating in quarter :" + target_quater);
+                chart.chartTitle().text("Borrower Rate Vs Prosper Rating in quarter :" + target_quater);
 
             }
         }
@@ -820,7 +820,7 @@
                 updateQuarterNavigateTools(quarters[quarter_idx]);
                 chartTrendRecieveNotificationDidFinishAnimate(update);
             }
-        }, 1);
+        }, 1500);
     </script>
 </head>
 <body>
