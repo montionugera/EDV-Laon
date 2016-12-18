@@ -20,12 +20,15 @@ The d3.js library has a steeper learning curve, and we encourage you to take on 
 The project decide to use :
 
 #### Bar chart and Line Chart
-because it is suite with differentiate data and show the trend of data.
+
+Because it can make the audience easily compare the value between the domain (x-axis) and see the trend of data.
 
 #### Geomap
+Because it can make the audience quickly explore the interest location/state and highest/lowest value.
 
 #### Boxplot
-because it is suite with differentiate data between category and can also show the distribution of it.
+Because it can make the audience quickly compare the value between the categories and see how the data shape 
+(distribution) so it can covert to how it significant different or it likely to be occurred by chance. 
  
 
 ### Step
