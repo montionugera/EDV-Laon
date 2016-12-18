@@ -195,7 +195,7 @@
                         .duration(200)
                         .style("opacity", .9);
                     div.html("State : " + d.properties.name + "<br/>" +
-                            "Loan amount : " + d.properties.LoanAmount + " $")
+                        "Loan amount : " + accounting.formatMoney(d.properties.LoanAmount))
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -442,26 +442,26 @@
                 if (event_dict[e.x] != undefined) {
                     return [
                         "Quater : " + e.x,
-                        "Loan amount : " + e.y,
+                        "Loan amount : " + accounting.formatMoney(e.y),
                         "Event : " + event_dict[e.x]
                     ];
                 }
                 return [
                     "Quater : " + e.x,
-                    "Loan amount : " + e.y
+                        "Loan amount : " + accounting.formatMoney(e.y)
                 ];
             };
             s1.getTooltipText = function (e) {
                 if (event_dict[e.x] != undefined) {
                     return [
                         "Quater : " + e.x,
-                        "Loan amount : " + e.y,
+                        "Loan amount : " + accounting.formatMoney(e.y),
                         "Event : " + event_dict[e.x]
                     ];
                 }
                 return [
                     "Quater : " + e.x,
-                    "Loan amount : " + e.y
+                        "Loan amount : " + accounting.formatMoney(e.y)
                 ];
             };
 

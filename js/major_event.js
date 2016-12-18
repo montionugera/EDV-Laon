@@ -6,7 +6,7 @@ function getMajorEvents() {
     var events = [
 
         {
-            event_name: "Years 2007 - 2009: The Global Recession and the Collapse of Wall Street :" +
+            event_name: "** Years 2007 - 2009: The Global Recession and the Collapse of Wall Street :" +
             " In September of 2008, a seemingly perfect storm of factors came together to precipate the " +
             "deepest economic downturn in not only the U.S., but across the globe, since the Great Depression. " +
             "The great investment banks that had stood on Wall Street began to collapse due to the sub-prime " +
@@ -16,13 +16,13 @@ function getMajorEvents() {
             , date: "09-01-2008", quarter: "2008-Q3"
         },
         {
-            event_name: 'On 6 September 2012,the ECB calmed financial markets by ' +
+            event_name: '** On 6 September 2012,the ECB calmed financial markets by ' +
                 'announcing free unlimited support for all eurozone countries'
             , date: "09-06-2012", quarter: "2012-Q3"
         },
 
         {
-            event_name: "Dow Drops 50% in 17 Months : Between October 9, 2007 and March 6, 2009, " +
+            event_name: "** Dow Drops 50% in 17 Months : Between October 9, 2007 and March 6, 2009, " +
             "the Dow Jones Industrial Average dropped 50%. This was the worst decline since the Great " +
             "Depression, when the Dow fell 80%. However, it occurred in only 17 months, while the Great " +
             "Depression drop took three years."
@@ -31,7 +31,7 @@ function getMajorEvents() {
 
 
         {
-            event_name: "$700 Billion Bank Bailout Bill : On September 18, 2008, Treasury Secretary " +
+            event_name: "** $700 Billion Bank Bailout Bill : On September 18, 2008, Treasury Secretary " +
             "Hank Paulson and Federal Reserve Chairman Ben Bernanke asked Congress for the largest bailout " +
             "package since the Great Depression. By October 3, the Senate passed the $700 billion " +
             "bailout bill, now known as the TARP program. The program was initially designed to purchase " +
@@ -911,6 +911,16 @@ function getMajorEvents() {
         {
             event_name: "North Korea Rocket Launch."
             , date: "07-04-2009", quarter: "2009-Q3"
+        },
+
+        {
+            event_name: "** Prosper has provided an increasing amount of information about " +
+            "prospective borrowers over time, while also making various changes to its credit policy. " +
+            "Prior to its 2008 'quiet period' and 2009 SEC registration, the company provided \"Credit Grades\" and " +
+            "other credit information about its prospective lenders. Following the SEC registration, the company created a new model that determined " +
+            "\"Prosper Ratings\" instead. Additionally, new prospective borrowers were required to have an FICO 8 credit score of at least 640, " +
+            "while returning borrowers only need a score of 600 to request a loan."
+            , date: "04-01-2009", quarter: "2009-Q2"
         },
 
         {
