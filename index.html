@@ -17,6 +17,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/jquery.min.js"></script>
+    <script src="js/accounting.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
     <script src="js/ion.sound.min.js"></script>
@@ -269,7 +270,6 @@
                     .style("fill", "url(#legend-loanmap)");
 
                 //Append title
-
                 var chartTitle = legendsvg.append("text")
                     .attr("class", "legendTitle")
                     .attr("x", 0)
@@ -302,13 +302,41 @@
                 var colorScale = drawlegendColor(loan_max);
                 drawXScale(loan_max);
 
+                //draw Legend Top Interest State
+                var legendInterestStateSize = {w: 100, h: 100};
+
+
+                var legendInterestState = svg.append("g")
+                    .attr("class", "legendInterestStateWrapper");
+
+                var posX = width - legendInterestStateSize.w - margin_default / 2;
+                var legendInterestStateTextTitle = legendInterestState.append("text")
+                    .attr("id", "legendInterestStateTextTitle")
+                    .attr("x", posX)
+                    .attr("y", height - legendInterestStateSize.h - margin_default / 2);
+
+                legendInterestStateTextTitle.append("tspan").attr("dy", "1em").attr("x", posX)
+                    .text("Top 5 highest loan ");
+                legendInterestStateTextTitle.append("tspan").attr("dy", "1em").attr("x", posX)
+                    .text("state");
+
+                var legendInterestStateText = legendInterestState.append("text")
+                    .attr("id", "legendInterestStateText")
+                    .attr("x", posX)
+                    .attr("y", height + 40 - legendInterestStateSize.h - margin_default / 2);
+
 
                 drawGeoUpdateFunc = function (theQuarter) {
                     var state_dict = {};
                     var states = [];
                     var loanMaxDefault = 10000;
+
                     var filtered = data.filter(function (d) {
                         return d['Loan Date Quarter'] == theQuarter;
+                    });
+
+                    var sortfilteredData = filtered.sort(function (a, b) {
+                        return d3['descending'](a.LoanAmount, b.LoanAmount);
                     });
 
                     var loanMaxNew = d3.max(filtered, function (d) {
@@ -334,6 +362,13 @@
                             return "#FFFFDD";
                         }
                     }
+                    $("#legendInterestStateText").empty();
+                    sortfilteredData.forEach(function (d,i) {
+                        if(i>4)return;
+                        legendInterestStateText.append("tspan").attr("dy", "1em").attr("x", posX)
+                            .text("#"+(i+1)+" "+d.state_full+" : " + accounting.formatMoney(d.LoanAmount));
+                    });
+
 
                     chartTitle.text("Loan Amount in USD vs State in quarter : " + theQuarter);
 
